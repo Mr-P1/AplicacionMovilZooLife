@@ -1,0 +1,18 @@
+.image-container {
+    position: relative; /* Establece el contenedor para la posición absoluta de los elementos internos */
+    display: inline-block; /* Ajusta el contenedor al tamaño de la imagen */
+  }
+  
+  .image-container img {
+    display: block; /* Asegura que la imagen se ajuste dentro del contenedor */
+  }
+  
+  .position-text {
+    position: absolute; /* Permite la colocación del texto en una posición específica */
+    top: 0px; /* Ajusta la distancia desde la parte superior de la imagen */
+    right: 10px; /* Ajusta la distancia desde el borde derecho de la imagen */
+    background-color: rgba(255, 153, 0, 0.616); /* Opcional: Fondo semi-transparente para legibilidad */
+    color: white; /* Opcional: Cambia el color del texto para mayor contraste */
+    padding: 5px; /* Opcional: Añade relleno alrededor del texto */
+    border-radius: 10px; /* Opcional: Bordes redondeados para el fondo del texto */
+  }

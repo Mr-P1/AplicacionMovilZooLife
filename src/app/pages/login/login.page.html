@@ -1,0 +1,87 @@
+<ion-header [translucent]="true">
+
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="contaier-login">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h1 style="color: rgb(255, 255, 255);">Iniciar Sesión</h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <ion-list>
+
+
+              <div>
+
+                <ion-item>
+                 
+                  <ion-input name="email" formControlName="email" type="email" required placeholder="Correo"></ion-input>
+                </ion-item>
+
+                <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-sm text-red-600">
+                  <span *ngIf="form.get('email')?.errors?.['required']">El correo es requerido.</span>
+                  <span *ngIf="form.get('email')?.errors?.['email']">Debe ingresar un correo válido.</span>
+                </div>
+
+
+              </div>
+
+              <div>
+                <ion-item>
+                  
+                  <ion-input formControlName="password" name="password" type="password" required placeholder="Contraseña"></ion-input>
+                </ion-item>
+
+                <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="text-sm text-red-600">
+                  <span *ngIf="form.get('password')?.errors?.['required']">La contraseña es requerida.</span>
+                  <span *ngIf="form.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 5 caracteres.</span>
+                </div>
+
+              </div>
+
+             
+              <div>
+                <ion-item>
+                  
+                  <ion-input formControlName="boleta" name="boleta" type="text" required placeholder="Boleta"></ion-input>
+                </ion-item>
+
+                <div *ngIf="form.get('boleta')?.touched && form.get('boleta')?.invalid" class="text-sm text-red-600">
+                  <span *ngIf="form.get('boleta')?.errors?.['required']">La boleta es requerida.</span>
+                  
+                </div>
+
+              </div>
+              
+
+            </ion-list>
+
+            <div class="botones">
+              <ion-button type="submit" fill="solid" expand="full">
+                Iniciar sesion
+              </ion-button>
+
+              <ion-button fill="solid" expand="full" [routerLink]="['/registrarse']">
+                Registrarse
+              </ion-button>
+
+              <a expand="full">¿Olvidaste tu contraseña?</a>
+
+            </div>
+
+          </form>
+
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+  </div>
+
+</ion-content>

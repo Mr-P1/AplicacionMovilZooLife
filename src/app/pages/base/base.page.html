@@ -1,0 +1,32 @@
+<ion-app>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-menu-toggle>
+        <h5 button [routerLink]="['/app/home']">Home</h5>
+        <h5  button [routerLink]="['/app/perfil']">Perfil</h5>
+        <h5  button [routerLink]="['/app/trivia']">Trivia</h5>
+        <h5 button [routerLink]="['/app/events']">Eventos</h5>
+        <h5  button [routerLink]="['/app/mapa']">Mapa</h5>
+        <a [routerLink]="['/app/mapa']">asd</a>
+      </ion-menu-toggle>
+    </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+<ion-header>
+    <ion-toolbar>
+    <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <!--<ion-title>Menú</ion-title>-->
+    </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-router-outlet></ion-router-outlet>
+</ion-content>
+</div>
+</ion-app>
