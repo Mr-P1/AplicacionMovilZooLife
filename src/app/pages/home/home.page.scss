@@ -6,3 +6,27 @@
 .additional-text {
   font-size: 12px; /* Ajusta según tu diseño */
 }
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left-button {
+  margin-right: auto; /* Empuja el botón de la izquierda a la izquierda */
+}
+
+.right-button {
+  margin-left: auto; /* Empuja el botón de la derecha a la derecha */
+}
+
+ion-card-title {
+  flex: 1; /* Permite que el título tome el espacio disponible */
+  text-align: center; /* Centra el título */
+}
+
+.estado {
+  text-align: center; /* Centra el estado debajo del título */
+  margin-top: 8px; /* Espaciado opcional entre el título y el estado */
+}

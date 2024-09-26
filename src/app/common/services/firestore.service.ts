@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, doc, Firestore, getDoc } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where } from '@angular/fire/firestore';
 import { from, map, Observable } from 'rxjs';
 import { Animal } from '../models/animal.model';
+import { Reaction } from '../models/reaction.model';
 
-
-
-const PATH = 'Animales';
+const PATH_ANIMALES = 'Animales';
+const PATH_REACCIONES = 'Reacciones';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,9 @@ export class FirestoreService {
 
 
   private _firestore = inject(Firestore);
-  private _rutaAnimal = collection(this._firestore, PATH)
+  private _rutaAnimal = collection(this._firestore, PATH_ANIMALES)
+  private _rutaReacciones = collection(this._firestore, PATH_REACCIONES);
+
 
 
   getAnimales(): Observable<Animal[]> {
@@ -30,5 +32,32 @@ export class FirestoreService {
     );
   }
 
+  // Método para obtener reacciones de un usuario por animal
+  getUserReaction(animalId: string, userId: string): Observable<Reaction | null> {
+    const reactionsQuery = query(
+      this._rutaReacciones,
+      where('animalId', '==', animalId),
+      where('userId', '==', userId)
+    );
+    return from(getDocs(reactionsQuery)).pipe(
+      map(snapshot => {
+        if (!snapshot.empty) {
+          const data = snapshot.docs[0].data() as Reaction;
+          return { id: snapshot.docs[0].id, ...data } as Reaction;
+        }
+        return null;
+      })
+    );
+  }
+
+  // Método para actualizar una reacción
+  updateReaction(id: string, reaction: Partial<Reaction>): Observable<void> {
+    const docRef = doc(this._rutaReacciones, id);
+    return from(setDoc(docRef, reaction, { merge: true }));
+  }
+
+  addReaction(reaction: Reaction): Observable<DocumentReference> {
+    return from(addDoc(this._rutaReacciones, reaction));
+  }
 
 }

@@ -1,44 +1,18 @@
-<!--
-<ion-list>
-  <ion-item *ngFor="let animal of animales" [routerLink]="['/animal-info', animal.id]">
-    <ion-card>
-      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-    
-        <ion-card-title>{{animal.nombre_comun}}</ion-card-title>
-        <ion-card-subtitle 
-          [ngClass]="{'estado-disponible': animal.estado === 'Disponible',
-          'estado-no-disponible': animal.estado !== 'Disponible'}">{{animal.estado}}
-         </ion-card-subtitle>
-    
-      <ion-button fill="clear">Me gusta</ion-button>
-      <ion-button fill="clear">No me gusta</ion-button>
-      
-    </ion-card>
-  </ion-item>
-</ion-list>
--->
-
 <ion-content>
   <ion-searchbar></ion-searchbar>
-<ion-list>
-  <ion-item *ngFor="let animal of animales" [routerLink]="['/animal-info', animal.id]">
-    <ion-thumbnail slot="start">
-      <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-    </ion-thumbnail>
-    
-    <!-- Contenedor para el texto -->
-    <div class="label-container">
-      <ion-label>{{ animal.nombre_comun }}</ion-label>
-      <div class="additional-text"
-        [ngClass]="{'estado-disponible': animal.estado === 'Disponible',
-        'estado-no-disponible': animal.estado !== 'Disponible'}">
-        {{animal.estado}}
+  <ion-card *ngFor="let animal of animales">
+    <img alt="Silhouette of mountains" src="{{animal.imagen}}" [routerLink]="['/app/animal-info', animal.id]"/>
+    <ion-card-header>
+      <div class="button-container">
+        <ion-button fill="clear" (click)="like(animal.id);" expand="full" class="left-button">Like</ion-button>
+        <ion-card-title>{{animal.nombre_comun}}</ion-card-title>
+        <ion-button fill="clear"(click)="dontLike(animal.id);" expand="full" class="right-button">D'Like</ion-button>
       </div>
-
-    </div>
-  </ion-item>
-</ion-list>
+      <ion-card-subtitle class="estado" 
+        [ngClass]="{'estado-disponible': animal.estado === 'Disponible',
+        'estado-no-disponible': animal.estado !== 'Disponible'}">{{animal.estado}}
+      </ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
 </ion-content>
-
-
 
