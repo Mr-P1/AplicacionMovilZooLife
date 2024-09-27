@@ -5,6 +5,9 @@ import { Reaction } from 'src/app/common/models/reaction.model';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonicModule} from '@ionic/angular';
+import { AuthService } from './../../common/services/auth.service';
+import { User } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-home',
@@ -15,8 +18,31 @@ import { IonicModule} from '@ionic/angular';
 })
 export class HomePage implements OnInit {
   animales: Animal[] = [];
-  constructor(private animalsService: FirestoreService) {}
-  userId:string = '111';
+  constructor(
+    private animalsService: FirestoreService,
+    private authService: AuthService
+  ) {}
+
+  userId:string = '';
+
+  ngOnInit(): void {
+    this.animalsService.getAnimales().subscribe((data: Animal[]) => {
+      this.animales = data;
+
+    })
+
+    this.authService.authState$.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+      }
+
+
+    });
+
+  }
+
+
+
 
   like(animalId: string) {
     this.animalsService.getUserReaction(animalId, this.userId).subscribe(existingReaction => {
@@ -33,14 +59,14 @@ export class HomePage implements OnInit {
           reaction: true,
           timestamp: new Date()
         };
-  
+
         this.animalsService.addReaction(reaction).subscribe(() => {
           console.log('Reacción guardada como Like');
         });
       }
     });
   }
-  
+
   dontLike(animalId: string) {
     this.animalsService.getUserReaction(animalId, this.userId).subscribe(existingReaction => {
       if (existingReaction && existingReaction.id) {
@@ -56,7 +82,7 @@ export class HomePage implements OnInit {
           reaction: false,
           timestamp: new Date()
         };
-  
+
         this.animalsService.addReaction(reaction).subscribe(() => {
           console.log('Reacción guardada como D\'Like');
         });
@@ -64,13 +90,8 @@ export class HomePage implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.animalsService.getAnimales().subscribe((data: Animal[]) => {
-      this.animales = data;
-      console.log(this.animales)
-    })
 
 
-    
-  }
+
+
 }

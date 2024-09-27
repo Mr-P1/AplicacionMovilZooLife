@@ -1,20 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { ReactiveFormsModule, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { RouterLink, Router } from '@angular/router';
+import { AuthService } from './../../common/services/auth.service'
+
 
 @Component({
   selector: 'app-registrarse',
   templateUrl: './registrarse.page.html',
   styleUrls: ['./registrarse.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule,RouterLink,ReactiveFormsModule]
 })
-export class RegistrarsePage implements OnInit {
+export class RegistrarsePage {
 
-  constructor() { }
+  private _formBuilder = inject(FormBuilder);
+  private _authService = inject(AuthService)
+  private _router = inject(Router);
 
-  ngOnInit() {
+  form = this._formBuilder.group(
+    {
+      email: this._formBuilder.control('', [Validators.required, Validators.email]),
+      password: this._formBuilder.control('', [Validators.required, Validators.minLength(5)]),
+      nombre: this._formBuilder.control('', [Validators.required]),
+      telefono: this._formBuilder.control('', [Validators.required])
+
+    }
+  )
+
+  async submit() {
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+
+    }
+
+    try {
+      const { email, password,telefono,nombre } = this.form.value;
+
+      if (!email || !password) return;
+
+      await this._authService.registrarse(email,password,String(nombre),Number(telefono));
+
+      this._router.navigate(['/']);
+
+
+
+    } catch (error) {
+
+    }
+
   }
+
+
 
 }
