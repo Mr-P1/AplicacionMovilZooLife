@@ -1,102 +1,122 @@
-<ion-header [translucent]="true">
-
-</ion-header>
+<ion-header [translucent]="true"> </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <ion-card >
-    <ion-card-header>
-      <ion-card-title  style="justify-content: center; display: flex;">Iniciar sesion</ion-card-title>
+  <ion-grid class="grid1">
+    <ion-row class="row1">
+      <ion-col> </ion-col>
+    </ion-row>
 
-    </ion-card-header>
+    <ion-row class="row2">
+      <ion-col> </ion-col>
+    </ion-row>
+  </ion-grid>
 
-    <ion-card-content>
-
-      <form [formGroup]="form" (ngSubmit)="submit()" >
-        <ion-list>
-
-
-          <div>
-
-            <ion-item>
-
-              <ion-input name="email" formControlName="email" type="email" required placeholder="Correo"></ion-input>
-            </ion-item>
-
-            <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-sm text-red-600">
-              <span *ngIf="form.get('email')?.errors?.['required']">El correo es requerido.</span>
-              <span *ngIf="form.get('email')?.errors?.['email']">Debe ingresar un correo válido.</span>
-            </div>
-
-
-          </div>
-
-          <div>
-            <ion-item>
-
-              <ion-input formControlName="password" name="password" type="password" required placeholder="Contraseña"></ion-input>
-            </ion-item>
-
-            <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid" class="text-sm text-red-600">
-              <span *ngIf="form.get('password')?.errors?.['required']">La contraseña es requerida.</span>
-              <span *ngIf="form.get('password')?.errors?.['minlength']">La contraseña debe tener al menos 5 caracteres.</span>
-            </div>
-
-          </div>
-
-
-          <div>
-            <ion-item>
-
-
-              <ion-input formControlName="boleta" name="boleta" type="text" required placeholder="Boleta"></ion-input>
-            </ion-item>
-
-            <div *ngIf="form.get('boleta')?.touched && form.get('boleta')?.invalid" class="text-sm text-red-600">
-              <span *ngIf="form.get('boleta')?.errors?.['required']">La boleta es requerida.</span>
-
-            </div>
-
-          </div>
-
-
-        </ion-list>
-
-        <div class="botones">
-          <ion-button type="submit" fill="solid" expand="full">
-            Iniciar sesion
-          </ion-button>
-
-          <ion-button fill="solid" expand="full" style="margin-top: 5px;"  [routerLink]="['/registrarse']">
-            Registrarse
-          </ion-button>
-
-          <a expand="full" style="justify-content: center; display: flex; margin-top: 5px;" >¿Olvidaste tu contraseña?</a>
-
-        </div>
-
-      </form>
-
-    </ion-card-content>
-
-  </ion-card>
-
-  <div class="contaier-login">
+  <div class="container-login">
     <ion-grid>
       <ion-row>
         <ion-col>
-
+          <h1 style="text-align: center; color: white">Iniciar Sesión</h1>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <ion-list>
+              <ion-item>
+                <ion-icon name="mail-outline"></ion-icon>
+                <ion-input
+                  name="user"
+                  type="text"
+                  required
+                  placeholder="email"
+                  formControlName="email"
+                ></ion-input>
 
 
+
+
+
+              </ion-item>
+              <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" style="justify-content: center; text-align: center;">
+                <span *ngIf="form.get('email')?.errors?.['required']">El correo es requerido.</span>
+                <span *ngIf="form.get('email')?.errors?.['email']">Debe ingresar un correo válido.</span>
+              </div>
+
+              <br />
+
+              <ion-item>
+                <ion-icon name="key-outline"></ion-icon>
+
+                <ion-input
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Contraseña"
+                  formControlName="password"
+                ></ion-input>
+
+
+              </ion-item>
+              <div
+              *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+              class="text-sm text-red-600"
+              style="justify-content: center; text-align: center;"
+            >
+              <span *ngIf="form.get('password')?.errors?.['required']"
+                >La contraseña es requerida.</span
+              >
+              <span *ngIf="form.get('password')?.errors?.['minlength']"
+                >La contraseña debe tener al menos 5 caracteres.</span
+              >
+            </div>
+
+              <br />
+
+              <ion-item>
+                <ion-icon name="key-outline"></ion-icon>
+
+                <ion-input
+                  name="boleta"
+                  type="boleta"
+                  required
+                  placeholder="ID boleta"
+                  formControlName="boleta"
+                ></ion-input>
+
+
+
+
+              </ion-item>
+
+
+              <div *ngIf="form.get('boleta')?.touched && form.get('boleta')?.invalid" style="justify-content: center; text-align: center;">
+                <span *ngIf="form.get('boleta')?.errors?.['required']">La boleta es requerida.</span>
+
+              </div>
+
+
+            </ion-list>
+
+            <div class="botones" style="justify-content: center; text-align: center;">
+              <ion-button type="submit" fill="solid" expand="full">
+                Iniciar sesion
+              </ion-button>
+
+              <ion-button
+                fill="solid"
+                expand="full"
+                [routerLink]="['/registrarse']"
+              >
+                Registrarse
+              </ion-button>
+
+              <a expand="full" style="justify-content: center; text-align: center; color: white;">¿Olvidaste tu contraseña?</a>
+
+            </div>
+          </form>
         </ion-col>
       </ion-row>
-
-
     </ion-grid>
   </div>
-
 </ion-content>

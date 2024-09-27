@@ -5,6 +5,9 @@ import { IonicModule } from '@ionic/angular';
 import { RouterLink,Router } from '@angular/router';
 import {AuthService} from './../../common/services/auth.service'
 
+import { addIcons } from 'ionicons';
+import { mailOutline,keyOutline } from 'ionicons/icons';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -14,7 +17,9 @@ import {AuthService} from './../../common/services/auth.service'
 })
 export class LoginPage  {
 
-  constructor() { }
+  constructor() {
+    addIcons({  mailOutline, keyOutline })
+   }
 
 
 
