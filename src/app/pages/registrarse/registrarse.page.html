@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
 
 </ion-header>
 
@@ -144,9 +144,160 @@
     </ion-grid>
   </div>
 
+</ion-content> -->
+
+
+<ion-header [translucent]="true"> </ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-grid class="grid1">
+    <ion-row class="row1">
+      <ion-col> </ion-col>
+    </ion-row>
+
+    <ion-row class="row2">
+      <ion-col> </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="container-login">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h1 style="text-align: center; color: white">Registrarse</h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <ion-list>
+
+              <ion-item>
+                <ion-icon name="person-outline"></ion-icon>
+                <ion-input
+                  name="user"
+                  type="text"
+                  required
+                  placeholder="nombre"
+                  formControlName="nombre"
+                ></ion-input>
+
+
+              </ion-item>
+              <div *ngIf="form.get('nombre')?.touched && form.get('nombre')?.invalid" style="justify-content: center; text-align: center;">
+                <span *ngIf="form.get('nombre')?.errors?.['required']">El nombre es requerido.</span>
+              </div>
+
+
+              <br>
+              <ion-item>
+                <ion-icon name="mail-outline"></ion-icon>
+                <ion-input
+                  name="user"
+                  type="email"
+                  required
+                  placeholder="email"
+                  formControlName="email"
+                ></ion-input>
+
+
+              </ion-item>
+              <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" style="justify-content: center; text-align: center;">
+                <span *ngIf="form.get('email')?.errors?.['required']">El correo es requerido.</span>
+                <span *ngIf="form.get('email')?.errors?.['email']">Debe ingresar un correo válido.</span>
+              </div>
+
+              <br />
+
+              <ion-item>
+                <ion-icon name="key-outline"></ion-icon>
+
+                <ion-input
+                  name="password"
+                  type="password"
+                  required
+                  placeholder="Contraseña"
+                  formControlName="password"
+                ></ion-input>
+
+
+              </ion-item>
+              <div
+              *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+              class="text-sm text-red-600"
+              style="justify-content: center; text-align: center;"
+            >
+              <span *ngIf="form.get('password')?.errors?.['required']"
+                >La contraseña es requerida.</span
+              >
+              <span *ngIf="form.get('password')?.errors?.['minlength']"
+                >La contraseña debe tener al menos 5 caracteres.</span
+              >
+            </div>
+
+              <br />
+
+              <ion-item>
+                <ion-icon name="call-outline"></ion-icon>
+
+                <ion-input
+                  name="telefono"
+                  type="number"
+                  min="1"
+                  required
+                  placeholder="Numero de telefono"
+                  formControlName="telefono"
+                ></ion-input>
+
+
+              </ion-item>
+              <div
+              *ngIf="form.get('telefono')?.touched && form.get('telefono')?.invalid"
+              class="text-sm text-red-600"
+              style="justify-content: center; text-align: center;"
+            >
+              <span *ngIf="form.get('telefono')?.errors?.['required']"
+                >El telefono es requerido.</span
+              >
+            </div>
+
+            <ion-item>
+              <ion-label>Tipo de usuario</ion-label>
+              <ion-select formControlName="tipo" placeholder="Seleccionar tipo">
+                <ion-select-option value="nino">Niño</ion-select-option>
+                <ion-select-option value="adulto">Adulto</ion-select-option>
+              </ion-select>
+            </ion-item>
+
+            <div *ngIf="form.get('tipo')?.touched && form.get('tipo')?.invalid" class="text-sm text-red-600" style="text-align: center;">
+              <span *ngIf="form.get('tipo')?.errors?.['required']">Debe seleccionar un tipo de usuario.</span>
+            </div>
+
+
+
+
+
+            </ion-list>
+
+            <div class="botones" style="justify-content: center; text-align: center;">
+              <ion-button type="submit" fill="solid" expand="full">
+                Registrarse
+              </ion-button>
+
+              <ion-button fill="solid" expand="full" [routerLink]="['/']">
+                Volver
+              </ion-button>
+
+            </div>
+
+          </form>
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>
-
-
 
 
 
