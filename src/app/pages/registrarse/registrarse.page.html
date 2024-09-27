@@ -1,13 +1,152 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>registrarse</ion-title>
-  </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">registrarse</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
+  <div class="contaier-login">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <h1>Registrarse</h1>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <form [formGroup]="form" (ngSubmit)="submit()">
+            <ion-list>
+
+
+              <div>
+                <ion-item>
+
+                  <ion-input
+                    name="nombre"
+                    formControlName="nombre"
+                    type="text"
+                    required
+                    placeholder="Nombre"
+                  ></ion-input>
+
+                </ion-item>
+                <div
+                    *ngIf="form.get('nombre')?.touched && form.get('nombre')?.invalid"
+                    class="text-sm text-red-600"
+                  >
+                    <span *ngIf="form.get('nombre')?.errors?.['required']"
+                      >El nombre es requerido.</span
+                    >
+                  </div>
+
+
+
+              </div>
+
+              <div>
+                <ion-item>
+                  <ion-input
+                    name="email"
+                    formControlName="email"
+                    type="email"
+                    required
+                    placeholder="Correo"
+                  ></ion-input>
+
+                </ion-item>
+
+                <div
+                    *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+                    class="text-sm text-red-600"
+                  >
+                    <span *ngIf="form.get('email')?.errors?.['required']"
+                      >El correo es requerido.</span
+                    >
+                    <span *ngIf="form.get('email')?.errors?.['email']"
+                      >Debe ingresar un correo válido.</span
+                    >
+                  </div>
+
+
+              </div>
+
+
+              <div>
+                <ion-item>
+                  <ion-input
+                    name="password"
+                    formControlName="password"
+                    type="password"
+                    required
+                    placeholder="Contraseña"
+                  ></ion-input>
+
+                </ion-item>
+
+                <div
+                *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+                class="text-sm text-red-600"
+                >
+                <span *ngIf="form.get('password')?.errors?.['required']"
+                  >El correo es requerido.</span
+                >
+                </div>
+
+
+
+              </div>
+
+
+              <div>
+
+                <ion-item>
+                  <ion-input
+                    name="telefono"
+                    formControlName="telefono"
+                    type="number"
+                    required
+                    placeholder="Telefono"
+                  ></ion-input>
+
+
+                </ion-item>
+                <div
+                    *ngIf="form.get('telefono')?.touched && form.get('telefono')?.invalid"
+                    class="text-sm text-red-600"
+                  >
+                    <span *ngIf="form.get('telefono')?.errors?.['required']"
+                      >El correo es requerido.</span
+                    >
+                  </div>
+
+
+              </div>
+
+
+            </ion-list>
+
+            <div class="botones">
+              <ion-button type="submit" fill="solid" expand="full">
+                Registrarse
+              </ion-button>
+
+              <ion-button fill="solid" expand="full" [routerLink]="['/']">
+                Volver
+              </ion-button>
+
+            </div>
+
+          </form>
+
+        </ion-col>
+      </ion-row>
+
+
+    </ion-grid>
+  </div>
+
 </ion-content>
+
+
+
+
+

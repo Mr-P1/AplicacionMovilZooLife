@@ -1,4 +1,4 @@
-import { Component, OnInit,inject } from '@angular/core';
+import { Component,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule,FormBuilder, FormControl,Validators } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -12,14 +12,11 @@ import {AuthService} from './../../common/services/auth.service'
   standalone: true,
   imports: [IonicModule, CommonModule,RouterLink,ReactiveFormsModule]
 })
-export class LoginPage implements OnInit {
+export class LoginPage  {
 
   constructor() { }
 
-  ngOnInit() {
 
-    
-  }
 
 
   private _formBuilder = inject(FormBuilder);
@@ -36,17 +33,13 @@ export class LoginPage implements OnInit {
     }
   )
 
-
-
-
-  async logearse(){
-    console.log("hola")
-  }
-
-
   async submit() {
 
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+
+    }
 
     try {
       const { email, password } = this.form.value;
@@ -59,7 +52,7 @@ export class LoginPage implements OnInit {
 
     } catch (error) {
 
-      
+
 
     }
 
