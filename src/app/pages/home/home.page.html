@@ -1,18 +1,20 @@
-<ion-content>
+<ion-content class="custom-content">
   <ion-searchbar></ion-searchbar>
-  <ion-card *ngFor="let animal of animales">
-    <img alt="Silhouette of mountains" src="{{animal.imagen}}" [routerLink]="['/app/animal-info', animal.id]"/>
-    <ion-card-header>
-      <div class="button-container">
-        <ion-button fill="clear" (click)="like(animal.id);" expand="full" class="left-button">Like</ion-button>
-        <ion-card-title>{{animal.nombre_comun}}</ion-card-title>
-        <ion-button fill="clear"(click)="dontLike(animal.id);" expand="full" class="right-button">D'Like</ion-button>
-      </div>
+  <ion-card *ngFor="let animal of animales" class="animal-card">
+    <div class="image-container">
+      <img alt="{{animal.nombre_comun}}" src="{{animal.imagen}}" [routerLink]="['/app/animal-info', animal.id]"/>
+      <div class="icono-numero">{{animal.posicion_mapa}}</div>
+    </div>
+    <ion-card-header class="card-header">
       <ion-card-subtitle class="estado" 
-        [ngClass]="{'estado-disponible': animal.estado === 'Disponible',
-        'estado-no-disponible': animal.estado !== 'Disponible'}">{{animal.estado}}
-      </ion-card-subtitle>
+        [ngClass]="{
+          'estado-disponible': animal.disponibilidad === 'Disponible',
+          'estado-no-disponible': animal.disponibilidad !== 'Disponible'
+        }">{{animal.disponibilidad}}</ion-card-subtitle>
+      <ion-card-title class="animal-nombre">{{animal.nombre_comun}}</ion-card-title>
     </ion-card-header>
+    
   </ion-card>
+  
 </ion-content>
 

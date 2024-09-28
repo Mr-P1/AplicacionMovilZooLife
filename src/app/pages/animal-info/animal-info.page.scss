@@ -1,7 +1,4 @@
-.image-container {
-    position: relative; /* Establece el contenedor para la posición absoluta de los elementos internos */
-    display: inline-block; /* Ajusta el contenedor al tamaño de la imagen */
-  }
+
   
   .image-container img {
     display: block; /* Asegura que la imagen se ajuste dentro del contenedor */
@@ -15,4 +12,15 @@
     color: white; /* Opcional: Cambia el color del texto para mayor contraste */
     padding: 5px; /* Opcional: Añade relleno alrededor del texto */
     border-radius: 10px; /* Opcional: Bordes redondeados para el fondo del texto */
+  }
+
+  .icono-numero {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #FFA500;
+    color: white;
+    border-radius: 50%;
+    padding: 5px 10px;
+    font-weight: bold;
   }
