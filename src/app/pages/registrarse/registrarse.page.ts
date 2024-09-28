@@ -70,6 +70,7 @@ export class RegistrarsePage {
       return;
     }
 
+    console.log("hola");
     try {
       const { email, password, telefono, nombre, tipo } = this.form.value;
 
