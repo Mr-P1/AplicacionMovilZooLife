@@ -3,9 +3,12 @@ import { addDoc, collection, collectionData, doc, DocumentReference, Firestore, 
 import { from, map, Observable } from 'rxjs';
 import { Animal } from '../models/animal.model';
 import { Reaction } from '../models/reaction.model';
+import {Usuario} from './auth.service';
+
 
 const PATH_ANIMALES = 'Animales';
 const PATH_REACCIONES = 'Reacciones';
+const PATH_USUARIOS = 'Usuarios';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +21,7 @@ export class FirestoreService {
   private _firestore = inject(Firestore);
   private _rutaAnimal = collection(this._firestore, PATH_ANIMALES)
   private _rutaReacciones = collection(this._firestore, PATH_REACCIONES);
+  private _rutaUsuarios = collection(this._firestore, PATH_USUARIOS);
 
 
 
@@ -59,5 +63,14 @@ export class FirestoreService {
   addReaction(reaction: Reaction): Observable<DocumentReference> {
     return from(addDoc(this._rutaReacciones, reaction));
   }
+
+
+  getUsuario(id: string): Observable<Usuario | null> {
+    const docRef = doc(this._rutaUsuarios, id);
+    return from(getDoc(docRef)).pipe(
+      map(doc => doc.exists() ? { id: doc.id, ...doc.data() } as Usuario : null)
+    );
+  }
+
 
 }

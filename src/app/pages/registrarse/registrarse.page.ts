@@ -41,29 +41,6 @@ export class RegistrarsePage {
   });
 
 
-
-
-  // async submit() {
-  //   if (this.form.invalid) {
-  //     this.form.markAllAsTouched();
-  //     return;
-  //   }
-
-  //   try {
-  //     const { email, password, telefono, nombre, tipo } = this.form.value;
-
-  //     if (!email || !password) return;
-
-  //     await this._authService.registrarse(email, password, String(nombre), String(telefono),String(tipo) );
-  //     console.log(this.form.value)
-
-  //     this._router.navigate(['/']);
-  //   } catch (error) {
-  //     console.error('Error en el registro:', error);
-  //   }
-  // }
-
-
   async submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();

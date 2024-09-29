@@ -6,11 +6,13 @@ import { EventsPage } from './pages/events/events.page';
 import { PerfilPage } from './pages/perfil/perfil.page';
 import { TriviaPage } from './pages/trivia/trivia.page';
 import { MapaPage } from './pages/mapa/mapa.page';
+import {privateGuard,publicGuard} from '../app/common/services/auth.guard';
 
 
 export const routes: Routes = [
   {
     path: 'app',
+    canActivate:[privateGuard()],
    component: BasePage,
    children: [
     { path:'home', component:HomePage},
@@ -27,6 +29,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
+    canActivate:[publicGuard()],
     path: 'login',
     loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
   },
@@ -34,6 +37,11 @@ export const routes: Routes = [
     path: 'registrarse',
     loadComponent: () => import('./pages/registrarse/registrarse.page').then( m => m.RegistrarsePage)
   },
-  
-  
+  {
+    path:'**',
+    redirectTo:''
+  },
+
+
+
 ];
