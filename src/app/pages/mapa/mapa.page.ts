@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg } from '@ionic/angular/standalone';
 import { StorageService } from './../../common/services/storage.service';
+import { FirestoreService } from '../../common/services/firestore.service';
 import PinchZoom from 'pinch-zoom-js';
+import { Animal } from 'src/app/common/models/animal.model';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-mapa',
@@ -13,10 +16,13 @@ import PinchZoom from 'pinch-zoom-js';
   imports: [IonImg, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
 export class MapaPage implements OnInit, AfterViewInit {
-
+  animales: Animal[] = [];
   imageUrl: string | undefined;
 
-  constructor(private storageService: StorageService) { }
+  constructor(
+    private storageService: StorageService,
+    private animalsService: FirestoreService,
+    private router: Router) { }
 
   ngOnInit(): void {
     const imagePath = 'Mapa/mapaBuinZoo.jpg';  
@@ -39,6 +45,22 @@ export class MapaPage implements OnInit, AfterViewInit {
         setOffsetsOnce: true,
         use2d: true
       });
+    }
+
+    this.animalsService.getAnimales().subscribe((data: Animal[]) => {
+      this.animales = data;
+    })
+  }
+
+  
+  goToAnimal(posicionMapa: number): void {
+    // Busca el animal correspondiente a la posición en el mapa
+    const animal = this.animales.find(a => a.posicion_mapa === posicionMapa);
+    
+    if (animal) {
+      this.router.navigate([`/app/animal-info/${animal.id}`]);
+    } else {
+      console.error('Animal no encontrado para la posición: ', posicionMapa);
     }
   }
 }
