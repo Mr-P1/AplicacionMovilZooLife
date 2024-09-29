@@ -32,7 +32,7 @@ export const publicGuard = (): CanActivateFn => {
     return authState.authState$.pipe(
       map((state) => {
         if (state) {
-          router.navigateByUrl('/app/animales');
+          router.navigateByUrl('/app/home');
           return false;
         }
 

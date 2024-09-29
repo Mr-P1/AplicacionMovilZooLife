@@ -1,11 +1,13 @@
 import { Injectable,inject } from '@angular/core';
 import {Auth,authState,signOut,signInWithEmailAndPassword, getAuth,createUserWithEmailAndPassword} from '@angular/fire/auth'
-import { Observable } from 'rxjs';
-import { addDoc, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where,collection } from '@angular/fire/firestore';
+import { from, map, Observable } from 'rxjs';
+import { addDoc, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where,collection, deleteDoc } from '@angular/fire/firestore';
 
 
 
 const PATH_USUARIOS = 'Usuarios';
+const PATH_BOLETAS = 'Boletas';
+const PATH_BOLETAS_USADAS = 'Boletas_usadas';
 
 export interface Usuario {
   id: string;
@@ -17,9 +19,24 @@ export interface Usuario {
   auth_id:string,
 }
 
+export interface Boleta{
+  id:string,
+  tipo:string
+}
+
+
+export interface BoletaUsada{
+  id:string,
+  tipo:string,
+  fecha:string,
+  id_usuario:string,
+}
+
+
 
 //Lo siguiente tiene para omitir el id porque recien lo vamos a crear
 export type CrearUsuario = Omit<Usuario, 'id'>
+export type CrearBoletaUsada = Omit<BoletaUsada,'id'>;
 
 
 export interface User {
@@ -38,6 +55,8 @@ export class AuthService {
   private _auth = inject(Auth);
   private _firestore=inject(Firestore)
   private _rutaUsuarios = collection(this._firestore, PATH_USUARIOS)
+  private _rutaBoletas = collection(this._firestore, PATH_BOLETAS)
+  private _rutaBoletasUsadas = collection(this._firestore, PATH_BOLETAS_USADAS)
 
 
 
@@ -46,39 +65,23 @@ export class AuthService {
     return authState(this._auth);
   }
 
+  get currentUserId(): string | null {
+    const user = this._auth.currentUser;
+    return user ? user.uid : null;
+  }
+
+
 
   logOut(){
     return signOut(this._auth);
   }
 
+
+
   logearse(user:User){
     return  signInWithEmailAndPassword(this._auth,user.email,user.password)
   }
 
-
-  // async registrarse(email: string, password: string, nombre: string, telefono: string,tipo:string) {
-  //   try {
-
-  //     const userCredential = await createUserWithEmailAndPassword(this._auth, email, password);
-  //     const user = userCredential.user;
-
-  //     const nuevo_usuario:CrearUsuario = {
-  //       nombre:nombre,
-  //       telefono:telefono,
-  //       tipo:tipo,
-  //       puntos:0,
-  //       nivel:0,
-  //       auth_id: user.uid,
-
-  //     }
-
-  //     await addDoc(this._rutaUsuarios,nuevo_usuario);
-
-
-
-  //   }catch{
-
-  //   }}
 
 
 
@@ -110,4 +113,41 @@ export class AuthService {
   }
 
 
+  // Método para obtener una boleta por ID
+  async getBoleta(boletaId: string): Promise<Boleta | null> {
+    const boletaDocRef = doc(this._firestore, `Boletas/${boletaId}`);
+    const boletaSnapshot = await getDoc(boletaDocRef);
+    if (boletaSnapshot.exists()) {
+      return boletaSnapshot.data() as Boleta;
+    } else {
+      return null;
+    }
+  }
+
+  // Método para mover una boleta a la colección Boletas_usadas
+  async usarBoleta(boletaId: string, userId: string): Promise<void> {
+    const boletaDocRef = doc(this._firestore, `Boletas/${boletaId}`);
+    const boletaData = await getDoc(boletaDocRef);
+
+    if (boletaData.exists()) {
+      const boleta = boletaData.data() as Boleta;
+      const fechaUso = new Date().toISOString();  // Formato ISO para la fecha
+      const boletaUsada: CrearBoletaUsada = {
+        tipo: boleta.tipo,
+        fecha: fechaUso,
+        id_usuario: userId
+      };
+
+      // Mover la boleta a Boletas_usadas
+      const usadaDocRef = doc(this._firestore, `Boletas_usadas/${boletaId}`);
+      await setDoc(usadaDocRef, boletaUsada);
+
+      // Eliminar la boleta de Boletas
+      await deleteDoc(boletaDocRef);
+    }
+  }
+
 }
+
+
+
