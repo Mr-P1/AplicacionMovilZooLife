@@ -11,14 +11,17 @@ import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingServ
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { environment } from './environments/environment.prod';
 
-
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    provideFirestore(() => getFirestore()), provideFirebaseApp(() => initializeApp(environment.firebase))
-     , provideAuth(() => getAuth()), provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, provideFirestore(() => getFirestore()), provideStorage(() => getStorage()),
-
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore()), 
+    provideAuth(() => getAuth()), 
+    provideAnalytics(() => getAnalytics()), 
+    ScreenTrackingService, 
+    UserTrackingService,
+    provideStorage(() => getStorage()), // Firebase Storage initialization
   ],
 });

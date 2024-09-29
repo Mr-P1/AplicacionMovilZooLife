@@ -1,3 +1,4 @@
+import { StorageService } from './../../common/services/storage.service';
 import { Component, OnInit } from '@angular/core';
 import { FirestoreService } from '../../common/services/firestore.service';
 import { Animal } from '../../common/models/animal.model';
@@ -6,8 +7,6 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonicModule} from '@ionic/angular';
 import { AuthService } from './../../common/services/auth.service';
-import { User } from '@angular/fire/auth';
-
 
 @Component({
   selector: 'app-home',
@@ -18,30 +17,28 @@ import { User } from '@angular/fire/auth';
 })
 export class HomePage implements OnInit {
   animales: Animal[] = [];
+  userId:string = '';
+  
   constructor(
     private animalsService: FirestoreService,
-    private authService: AuthService
+    private authService: AuthService,
+    
   ) {}
-
-  userId:string = '';
-
+  
   ngOnInit(): void {
+
     this.animalsService.getAnimales().subscribe((data: Animal[]) => {
       this.animales = data;
-
     })
 
     this.authService.authState$.subscribe(user => {
       if (user) {
         this.userId = user.uid;
       }
-
-
     });
 
+
   }
-
-
 
 
   like(animalId: string) {
@@ -89,9 +86,6 @@ export class HomePage implements OnInit {
       }
     });
   }
-
-
-
 
 
 }

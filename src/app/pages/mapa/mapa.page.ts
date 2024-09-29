@@ -1,20 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg } from '@ionic/angular/standalone';
+import { StorageService } from './../../common/services/storage.service';
+import PinchZoom from 'pinch-zoom-js';
 
 @Component({
   selector: 'app-mapa',
   templateUrl: './mapa.page.html',
   styleUrls: ['./mapa.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonImg, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
 })
-export class MapaPage implements OnInit {
+export class MapaPage implements OnInit, AfterViewInit {
 
-  constructor() { }
+  imageUrl: string | undefined;
 
-  ngOnInit() {
+  constructor(private storageService: StorageService) { }
+
+  ngOnInit(): void {
+    const imagePath = 'Mapa/mapaBuinZoo.jpg';  
+
+    this.storageService.getImageUrl(imagePath).then((url) => {
+      this.imageUrl = url;  
+    }).catch((error) => {
+      console.error('Error getting image URL:', error);
+    });
   }
 
+  ngAfterViewInit(): void {
+    const zoomContainer = document.getElementById('zoom-container');
+    if (zoomContainer) {
+      const pinchZoom = new PinchZoom(zoomContainer, {
+        tapZoomFactor: 2,
+        zoomOutFactor: 1.3,
+        animationDuration: 300,
+        draggableUnzoomed: false,
+        setOffsetsOnce: true,
+        use2d: true
+      });
+    }
+  }
 }

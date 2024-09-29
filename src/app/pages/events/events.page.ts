@@ -12,9 +12,9 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 })
 export class EventsPage implements OnInit {
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
+
+  ngOnInit(): void {
   }
-
 }

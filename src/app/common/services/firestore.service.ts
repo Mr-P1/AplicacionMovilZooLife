@@ -9,7 +9,6 @@ import {Usuario} from './auth.service';
 const PATH_ANIMALES = 'Animales';
 const PATH_REACCIONES = 'Reacciones';
 const PATH_USUARIOS = 'Usuarios';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -21,7 +20,10 @@ export class FirestoreService {
   private _firestore = inject(Firestore);
   private _rutaAnimal = collection(this._firestore, PATH_ANIMALES)
   private _rutaReacciones = collection(this._firestore, PATH_REACCIONES);
+
   private _rutaUsuarios = collection(this._firestore, PATH_USUARIOS);
+
+
 
 
 
