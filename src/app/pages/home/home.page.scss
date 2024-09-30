@@ -1,7 +1,7 @@
 .animal-card {
   margin: 15px;
   border-radius: 15px;
-  overflow: hidden; /* Para asegurar que los bordes sean redondeados y no se desborden */
+  overflow: hidden;
 }
 
 .image-container {
@@ -11,9 +11,10 @@
 }
 
 .image-container img {
-  width: 100%; /* Ajusta el tamaño para que no llegue a los bordes */
-  height: auto;
-  border-radius: 10px; /* Bordes redondeados en la imagen */
+  width: 100%; /* Asegúrate de que la imagen ocupe todo el ancho del contenedor */
+  height: 200px; /* Establece una altura fija para estandarizar el tamaño de las imágenes */
+  object-fit: cover; /* Asegúrate de que la imagen cubra todo el área sin distorsionarse */
+  border-radius: 10px;
 }
 
 .icono-numero {
@@ -27,14 +28,18 @@
   font-weight: bold;
 }
 
-.card-header {
-  padding: 1px 0 1px 0; /* Reduce el espacio entre el subtítulo y el título */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-container {
   text-align: center;
 }
 
 .estado {
   font-size: 0.85em;
-  color: green; /* Este color cambiará según la disponibilidad */
 }
 
 .estado-disponible {
@@ -45,10 +50,22 @@
   color: red;
 }
 
-.animal-nombre {
-  font-size: 1.2em;
-  margin: 0;
-  padding: 0;
+ion-card-title {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+ion-card-subtitle {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+ion-button img {
+  width: 24px;
+  height: 24px;
 }
 
 ion-content {
