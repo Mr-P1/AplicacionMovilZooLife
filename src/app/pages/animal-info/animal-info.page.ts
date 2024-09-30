@@ -6,6 +6,7 @@ import { FirestoreService } from '../../common/services/firestore.service';
 import { Animal } from '../../common/models/animal.model';
 import { Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../common/services/auth.service';
 
 @Component({
   selector: 'app-animal-info',
@@ -20,7 +21,8 @@ export class AnimalInfoPage implements OnInit {
   animal$: Observable<Animal | null> | undefined;
   constructor(
     private animalService: FirestoreService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService,
   ) { }
 
   setCuriosidadOpen(isOpen: boolean) {
@@ -30,18 +32,32 @@ export class AnimalInfoPage implements OnInit {
   setPrecaucionOpen(isOpen: boolean) {
     this.isPrecaucionModalOpen = isOpen;
   }
-  
+
   ngOnInit() {
-    // Obtener el ID desde la URL
     const id = this.route.snapshot.paramMap.get('id');
-    
+    const userId = this.authService.currentUserId;
+
     if (id) {
-      // Llamar al servicio y suscribirse al observable
       this.animal$ = this.animalService.getAnimal(id);
+
+      if (userId) {
+        // Verificar si el usuario ya vio el animal antes de guardar
+        this.animalService.usuarioHaVistoAnimal(userId, id).subscribe(haVisto => {
+          if (!haVisto) {
+            // Si no lo ha visto, iniciar un temporizador de 5 segundos
+            setTimeout(() => {
+              this.animalService.guardarAnimalVisto(userId, id).subscribe({
+                next: () => console.log('Animal visto guardado exitosamente'),
+                error: (error) => console.error('Error al guardar el animal visto', error)
+              });
+            }, 5000); // Esperar 5 segundos
+          }
+        });
+      }
     }
-
- 
-    
-
   }
+
+
+
+
 }

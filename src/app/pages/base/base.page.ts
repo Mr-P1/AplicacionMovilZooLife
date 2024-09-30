@@ -7,6 +7,10 @@ import { ContadorService } from './../../common/services/contador.service';
 import { PipesModule } from 'src/app/common/services/pipe.module';
 import { map } from 'rxjs/operators';
 
+
+import { addIcons } from 'ionicons';
+import { star,personCircle } from 'ionicons/icons';
+
 @Component({
   selector: 'app-base',
   templateUrl: './base.page.html',
@@ -23,7 +27,9 @@ export class BasePage implements OnInit {
     map(tiempoRestante => tiempoRestante !== null ? tiempoRestante : 0) // Proporcionar un valor predeterminado
   );
 
-  constructor() { }
+  constructor() {
+    addIcons({ star,personCircle });
+  }
 
   ngOnInit() {
     this._contadorService.iniciarContador();

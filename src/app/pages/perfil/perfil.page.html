@@ -5,19 +5,24 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
-<h2>Hola</h2>
-  <ion-card *ngIf="usuario">
-    <h2>Hola, {{usuario.nombre}}</h2>
-    <p>Correo  {{usuario.email}}</p>
-    <p>nombre{{usuario.nombre}}</p>
-    <p>Teléfono: {{usuario.telefono}}</p>
-    <p>Tipo: {{usuario.tipo}}</p>
-    <p>Puntos: {{usuario.puntos}}</p>
-    <p>Nivel: {{usuario.nivel}}</p>
-  </ion-card>
+
+  <ion-content [fullscreen]="true">
+    <ion-header collapse="condense">
+      <ion-toolbar>
+        <ion-title size="large">Perfil</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <!-- Mostrar los datos del usuario -->
+    <ng-container *ngIf="usuario">
+      <ion-card>
+        <h2>Hola, {{ usuario.nombre }}</h2>
+        <p>Correo: {{email}}</p>
+        <p>Nombre: {{ usuario.nombre }}</p>
+        <p>Teléfono: {{ usuario.telefono }}</p>
+        <p>Tipo: {{ usuario.tipo }}</p>
+        <p>Puntos: {{ usuario.puntos }}</p>
+        <p>Nivel: {{ usuario.nivel }}</p>
+      </ion-card>
+    </ng-container>
 </ion-content>

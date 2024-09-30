@@ -9,6 +9,8 @@ import {Usuario} from './auth.service';
 const PATH_ANIMALES = 'Animales';
 const PATH_REACCIONES = 'Reacciones';
 const PATH_USUARIOS = 'Usuarios';
+const PATH_ANIMALES_VISTOS = 'AnimalesVistos';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,8 +22,8 @@ export class FirestoreService {
   private _firestore = inject(Firestore);
   private _rutaAnimal = collection(this._firestore, PATH_ANIMALES)
   private _rutaReacciones = collection(this._firestore, PATH_REACCIONES);
-
   private _rutaUsuarios = collection(this._firestore, PATH_USUARIOS);
+  private _rutaAnimalesVistos = collection(this._firestore, PATH_ANIMALES_VISTOS);
 
 
 
@@ -73,6 +75,34 @@ export class FirestoreService {
       map(doc => doc.exists() ? { id: doc.id, ...doc.data() } as Usuario : null)
     );
   }
+
+
+   // Método para guardar el animal visto
+   guardarAnimalVisto(userId: string, animalId: string): Observable<void> {
+    const animalVisto = {
+      userId: userId,
+      animalId: animalId,
+      vistoEn: new Date().toISOString()
+    };
+    return from(addDoc(this._rutaAnimalesVistos, animalVisto)).pipe(map(() => {}));
+  }
+
+  // Método para verificar si el usuario ya ha visto el animal
+  usuarioHaVistoAnimal(userId: string, animalId: string): Observable<boolean> {
+    const q = query(
+      this._rutaAnimalesVistos,
+      where('userId', '==', userId),
+      where('animalId', '==', animalId)
+    );
+
+    return from(getDocs(q)).pipe(
+      map(snapshot => !snapshot.empty) // Retorna true si existe un registro
+    );
+  }
+
+
+
+
 
 
 }
