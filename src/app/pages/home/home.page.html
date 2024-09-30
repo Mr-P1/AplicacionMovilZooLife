@@ -7,15 +7,24 @@
       <div class="icono-numero">{{animal.posicion_mapa}}</div>
     </div>
     <ion-card-header class="card-header">
-      <ion-card-subtitle class="estado" 
-        [ngClass]="{
-          'estado-disponible': animal.disponibilidad === 'Disponible',
-          'estado-no-disponible': animal.disponibilidad !== 'Disponible'
-        }">{{animal.disponibilidad}}</ion-card-subtitle>
-      <ion-card-title class="animal-nombre">{{animal.nombre_comun}}</ion-card-title>
-    </ion-card-header>
-    
-  </ion-card>
-  
-</ion-content>
+      <div class="header-content">
+        <ion-button fill="clear" (click)="like(animal.id)">
+          <img src="../../../assets/icon/likeVerde.png" alt="Curiosidad" />
+        </ion-button>
 
+        <div class="title-container">
+          <ion-card-title>{{ animal.nombre_comun }}</ion-card-title>
+          <ion-card-subtitle class="estado" 
+            [ngClass]="{
+              'estado-disponible': animal.disponibilidad === 'Disponible',
+              'estado-no-disponible': animal.disponibilidad !== 'Disponible'
+            }">{{animal.disponibilidad}}</ion-card-subtitle>
+        </div>
+
+        <ion-button fill="clear" (click)="dontLike(animal.id)">
+          <img src="../../../assets/icon/dislikeRojo.png" alt="Precaución" />
+        </ion-button>
+      </div>
+    </ion-card-header>
+  </ion-card>
+</ion-content>
