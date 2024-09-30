@@ -1,5 +1,5 @@
 import { Injectable,inject } from '@angular/core';
-import {Auth,authState,signOut,signInWithEmailAndPassword, getAuth,createUserWithEmailAndPassword} from '@angular/fire/auth'
+import {Auth,authState,signOut,signInWithEmailAndPassword, getAuth,createUserWithEmailAndPassword } from '@angular/fire/auth'
 import { from, map, Observable } from 'rxjs';
 import { addDoc, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where,collection, deleteDoc } from '@angular/fire/firestore';
 
@@ -68,6 +68,28 @@ export class AuthService {
   get currentUserId(): string | null {
     const user = this._auth.currentUser;
     return user ? user.uid : null;
+  }
+
+  get currentUserEmail(): string | null {
+    const user = this._auth.currentUser;
+    return user ? user.email : null;
+  }
+
+
+
+   // Obtener los datos completos del usuario, combinando la autenticación y Firestore
+   async getUsuarioFirestore(authId: string): Promise<Usuario | null> {
+    // Hacer una consulta en la colección `Usuarios` para obtener el usuario que coincida con el auth_id
+    const q = query(this._rutaUsuarios, where('auth_id', '==', authId));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+      // Retornar el primer documento que coincida con el auth_id
+      const usuario = querySnapshot.docs[0].data() as Usuario;
+      return usuario;
+    } else {
+      return null;  // Si no se encuentra el usuario, retorna null
+    }
   }
 
 

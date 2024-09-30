@@ -1,4 +1,5 @@
 <ion-content>
+  <!-- Si los datos del animal están cargados, se muestran, de lo contrario se muestra el loading -->
   <ng-container *ngIf="animal$ | async as animal; else loading">
     <ion-card>
       <div>
@@ -28,23 +29,11 @@
 
       <ion-card-content>
         <p><strong>Descripción: </strong>{{ animal.descripcion_1 }}</p>
-        <p><strong>Comportamiento:</strong> {{ animal.comportamiento}}</p>
-        <p><strong>Habitat:</strong> {{ animal.habitat}}</p>
-        <p><strong>Estado de conservación:</strong> {{ animal.estado_conservacion}}</p>
-        <p><strong>Dieta: </strong>{{ animal.dieta}}</p>
-        <p><strong>Peso:</strong> {{ animal.peso}}</p>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <ion-card-subtitle>Conoce más información</ion-card-subtitle>
-        <ion-card-title>Multimedia</ion-card-title>
-        
-      </ion-card-header>
-    
-      <ion-card-content>
-        Here's a small text description for the card content. Nothing more, nothing less.
+        <p><strong>Comportamiento:</strong> {{ animal.comportamiento }}</p>
+        <p><strong>Habitat:</strong> {{ animal.habitat }}</p>
+        <p><strong>Estado de conservación:</strong> {{ animal.estado_conservacion }}</p>
+        <p><strong>Dieta: </strong>{{ animal.dieta }}</p>
+        <p><strong>Peso:</strong> {{ animal.peso }}</p>
       </ion-card-content>
     </ion-card>
 
@@ -60,8 +49,8 @@
         </ion-header>
         <ion-content class="ion-padding">
           <ion-card>
-            <ion-card-content >
-              <strong>{{animal.dato_curioso}}</strong> 
+            <ion-card-content>
+              <strong>{{ animal.dato_curioso }}</strong>
             </ion-card-content>
           </ion-card>
         </ion-content>
@@ -79,28 +68,61 @@
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding" class="fondoModal">
-
           <ion-card>
-            <ion-card-content >
-              <strong>{{animal.precaucion_1}}</strong> 
+            <ion-card-content>
+              <strong>{{ animal.precaucion_1 }}</strong>
             </ion-card-content>
           </ion-card>
 
           <ion-card>
-            <ion-card-content >
-              <strong>{{animal.precaucion_2}}</strong> 
+            <ion-card-content>
+              <strong>{{ animal.precaucion_2 }}</strong>
             </ion-card-content>
           </ion-card>
 
           <ion-card>
-            <ion-card-content >
-              <strong>{{animal.precaucion_3}}</strong> 
+            <ion-card-content>
+              <strong>{{ animal.precaucion_3 }}</strong>
             </ion-card-content>
           </ion-card>
         </ion-content>
       </ng-template>
     </ion-modal>
 
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Conoce más información</ion-card-subtitle>
+        <ion-card-title>Multimedia</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <!-- Verificar si hay un video disponible -->
+        <ng-container *ngIf="animal.video; else noVideo">
+          <ion-card-title>Video del Animal</ion-card-title>
+          <video width="100%" height="auto" controls>
+            <source [src]="animal.video" type="video/mp4" />
+            Tu navegador no soporta la reproducción de video.
+          </video>
+        </ng-container>
+
+        <ng-template #noVideo>
+          <p>No hay video disponible para este animal.</p>
+        </ng-template>
+
+        <!-- Verificar si hay un audio disponible -->
+        <ng-container *ngIf="animal.audio; else noAudio">
+          <ion-card-title>Audio del Animal</ion-card-title>
+          <audio controls>
+            <source [src]="animal.audio" type="audio/mp3" />
+            Tu navegador no soporta la reproducción de audio.
+          </audio>
+        </ng-container>
+
+        <ng-template #noAudio>
+          <p>No hay audio disponible para este animal.</p>
+        </ng-template>
+      </ion-card-content>
+    </ion-card>
   </ng-container>
 
   <!-- Mostrar un mensaje de carga mientras se obtiene la información del animal -->
