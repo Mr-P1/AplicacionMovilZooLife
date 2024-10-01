@@ -47,7 +47,7 @@
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
-        <ion-content class="ion-padding">
+        <ion-content class="ion-padding" class="fondoModalCuriosidad">
           <ion-card>
             <ion-card-content>
               <strong>{{ animal.dato_curioso }}</strong>
@@ -67,7 +67,7 @@
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
-        <ion-content class="ion-padding" class="fondoModal">
+        <ion-content class="ion-padding" class="fondoModalPrecaucion">
           <ion-card>
             <ion-card-content>
               <strong>{{ animal.precaucion_1 }}</strong>
@@ -98,7 +98,7 @@
       <ion-card-content>
         <!-- Verificar si hay un video disponible -->
         <ng-container *ngIf="animal.video; else noVideo">
-          <ion-card-title>Video del Animal</ion-card-title>
+          <ion-card-subtitle>Video</ion-card-subtitle>
           <video width="100%" height="auto" controls>
             <source [src]="animal.video" type="video/mp4" />
             Tu navegador no soporta la reproducción de video.
@@ -111,7 +111,7 @@
 
         <!-- Verificar si hay un audio disponible -->
         <ng-container *ngIf="animal.audio; else noAudio">
-          <ion-card-title>Audio del Animal</ion-card-title>
+          <ion-card-subtitle>Audio</ion-card-subtitle>
           <audio controls>
             <source [src]="animal.audio" type="audio/mp3" />
             Tu navegador no soporta la reproducción de audio.

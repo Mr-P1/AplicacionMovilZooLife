@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { RouterLink, Router, RouterModule } from '@angular/router';
+import { RouterLink, Router, RouterModule, NavigationEnd } from '@angular/router';
 import { AuthService } from 'src/app/common/services/auth.service';
 import { ContadorService } from './../../common/services/contador.service';
 import { PipesModule } from 'src/app/common/services/pipe.module';
@@ -27,8 +27,16 @@ export class BasePage implements OnInit {
     map(tiempoRestante => tiempoRestante !== null ? tiempoRestante : 0) // Proporcionar un valor predeterminado
   );
 
+  pageTitle: string = 'Home';  // Título por defecto
+
   constructor() {
     addIcons({ star,personCircle });
+
+    this._router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.updateTitle(this._router.url);
+      }
+    });
   }
 
   ngOnInit() {
@@ -43,6 +51,26 @@ export class BasePage implements OnInit {
     await this._authState.logOut();
     this._router.navigate(['']);
   }
+
+  // Método para actualizar el título basado en la URL
+  private updateTitle(url: string) {
+    if (url.includes('home')) {
+      this.pageTitle = 'Inicio';
+    } else if (url.includes('perfil')) {
+      this.pageTitle = 'Perfil';
+    } else if (url.includes('trivia')) {
+      this.pageTitle = 'Trivia';
+    } else if (url.includes('events')) {
+      this.pageTitle = 'Eventos';
+    } else if (url.includes('mapa')) {
+      this.pageTitle = 'Mapa';
+    } else if (url.includes('animal-info')) {
+      this.pageTitle = 'Información'; // Nuevo título para la página de animal-info
+    } else {
+      this.pageTitle = 'Menú';  // Título por defecto
+    }
+  }
+  
 
 
 
