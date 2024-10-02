@@ -1,5 +1,5 @@
 
-import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FirestoreService } from '../../common/services/firestore.service';
 import { Animal } from '../../common/models/animal.model';
 import { Reaction } from 'src/app/common/models/reaction.model';
@@ -13,21 +13,12 @@ import { AuthService } from './../../common/services/auth.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [CommonModule, RouterLink,IonicModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [CommonModule, RouterLink,IonicModule]
 })
 export class HomePage implements OnInit {
   animales: Animal[] = [];
   userId:string = '';
 
-  slideOpts = {
-    initialSlide: 0,
-    speed: 400,
-    autoplay: {
-      delay: 2000,
-    },
-  };
-  
   constructor(
     private animalsService: FirestoreService,
     private authService: AuthService,

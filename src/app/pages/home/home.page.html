@@ -1,6 +1,6 @@
 <ion-content>
   <ion-searchbar color="light" placeholder="Buscar atracción"></ion-searchbar>
-
+  
   <ion-card *ngFor="let animal of animales" class="animal-card">
     <div class="image-container">
       <img alt="{{animal.nombre_comun}}" src="{{animal.imagen}}" [routerLink]="['/app/animal-info', animal.id]"/>
