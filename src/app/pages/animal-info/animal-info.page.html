@@ -91,11 +91,23 @@
 
     <ion-card>
       <ion-card-header>
-        <ion-card-subtitle>Conoce más información</ion-card-subtitle>
-        <ion-card-title>Multimedia</ion-card-title>
+        <ion-card-title>Contenido multimedia</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
+        <!-- Verificar si hay un audio disponible -->
+        <ng-container *ngIf="animal.audio; else noAudio">
+          <ion-card-subtitle>Audio explicativo</ion-card-subtitle>
+          <audio controls>
+            <source [src]="animal.audio" type="audio/mp3" />
+            Tu navegador no soporta la reproducción de audio.
+          </audio>
+        </ng-container>
+
+        <ng-template #noAudio>
+          <p>No hay audio disponible para este animal.</p>
+        </ng-template>
+
         <!-- Verificar si hay un video disponible -->
         <ng-container *ngIf="animal.video; else noVideo">
           <ion-card-subtitle>Video</ion-card-subtitle>
@@ -109,18 +121,6 @@
           <p>No hay video disponible para este animal.</p>
         </ng-template>
 
-        <!-- Verificar si hay un audio disponible -->
-        <ng-container *ngIf="animal.audio; else noAudio">
-          <ion-card-subtitle>Audio</ion-card-subtitle>
-          <audio controls>
-            <source [src]="animal.audio" type="audio/mp3" />
-            Tu navegador no soporta la reproducción de audio.
-          </audio>
-        </ng-container>
-
-        <ng-template #noAudio>
-          <p>No hay audio disponible para este animal.</p>
-        </ng-template>
       </ion-card-content>
     </ion-card>
   </ng-container>

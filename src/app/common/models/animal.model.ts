@@ -1,5 +1,5 @@
 export interface Animal {
-    id: string;
+    id:string;
     altura: string;
     clase: string;
     comportamiento: string;
@@ -23,4 +23,5 @@ export interface Animal {
     zona: string;
     video:  string,
     audio:  string,
+    reaccion:boolean|null;
     }
