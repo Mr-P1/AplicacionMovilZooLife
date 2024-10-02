@@ -3,5 +3,4 @@ export interface Reaction {
     userId?: string; 
     animalId: string; 
     reaction: boolean;
-    timestamp: Date;
   }

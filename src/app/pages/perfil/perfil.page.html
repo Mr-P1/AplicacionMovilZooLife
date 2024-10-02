@@ -1,24 +1,26 @@
+<ion-content >
+  <div class="perfil-content">
+    <ion-avatar class="perfil-avatar">
+      <img [src]="" alt="Foto de perfil" />
+    </ion-avatar>
+    
+    <div class="perfil-info">
+      <ion-row>
+        <ion-col class="info-col">
+          <h3>{{usuario?.puntos}}<br>Puntos</h3>
+        </ion-col>
+        <ion-col class="info-col">
+          <h3>{{usuario?.nivel}}<br>Nivel</h3>
+        </ion-col>
+      </ion-row>
+    </div>
 
-
-<ion-content [fullscreen]="true">
-
-  <ion-content [fullscreen]="true">
-    <ion-header collapse="condense">
-      <ion-toolbar>
-        <ion-title size="large">Perfil</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <!-- Mostrar los datos del usuario -->
-    <ng-container *ngIf="usuario">
-      <ion-card>
-        <h2>Hola, {{ usuario.nombre }}</h2>
-        <p>Correo: {{email}}</p>
-        <p>Nombre: {{ usuario.nombre }}</p>
-        <p>Teléfono: {{ usuario.telefono }}</p>
-        <p>Tipo: {{ usuario.tipo }}</p>
-        <p>Puntos: {{ usuario.puntos }}</p>
-        <p>Nivel: {{ usuario.nivel }}</p>
-      </ion-card>
-    </ng-container>
+    <ion-card>
+      <ion-card-content>
+        <p><strong>Nombre</strong>: {{usuario?.nombre}} </p>
+        <p><strong>Telefono</strong>: {{usuario?.telefono}}</p>
+        <p><strong>Cuenta</strong>: {{usuario?.tipo}} </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

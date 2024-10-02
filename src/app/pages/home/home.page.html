@@ -9,7 +9,7 @@
     <ion-card-header class="card-header">
       <div class="header-content">
         <ion-button fill="clear" (click)="like(animal.id)">
-          <img src="../../../assets/icon/likeVerde.png" alt="Curiosidad" />
+          <img [src]="animal.reaccion === true ? '../../../assets/icon/likeVerde.png' : '../../../assets/icon/likeNegro.png'" alt="Me gusta" />
         </ion-button>
 
         <div class="title-container">
@@ -22,7 +22,7 @@
         </div>
 
         <ion-button fill="clear" (click)="dontLike(animal.id)">
-          <img src="../../../assets/icon/dislikeRojo.png" alt="Precaución" />
+          <img [src]="animal.reaccion === false ? '../../../assets/icon/dislikeRojo.png' : '../../../assets/icon/dislikeNegro.png'" alt="Me gusta" />
         </ion-button>
       </div>
     </ion-card-header>
