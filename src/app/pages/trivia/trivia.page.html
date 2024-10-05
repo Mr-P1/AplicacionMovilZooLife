@@ -1,43 +1,69 @@
 <ion-content>
-  <ion-card *ngFor="let pregunta of preguntasRandom">
+  <!-- Mostrar mensaje si el usuario ha visto menos de 5 animales -->
+  <ion-card *ngIf="!puedeHacerTrivia">
     <ion-card-header>
-      <ion-card-title>{{ pregunta.pregunta }}</ion-card-title>
+      <ion-card-title>Lo siento</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-button
-            [color]="pregunta.respondida ? (pregunta.respuesta_correcta === 'a' ? 'success' : 'danger') : 'primary'"
-            [disabled]="pregunta.respondida"
-            (click)="seleccionarRespuesta(pregunta, 'a')">
-            {{ pregunta.respuestas.a }}
-          </ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button
-            [color]="pregunta.respondida ? (pregunta.respuesta_correcta === 'b' ? 'success' : 'danger') : 'primary'"
-            [disabled]="pregunta.respondida"
-            (click)="seleccionarRespuesta(pregunta, 'b')">
-            {{ pregunta.respuestas.b }}
-          </ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button
-            [color]="pregunta.respondida ? (pregunta.respuesta_correcta === 'c' ? 'success' : 'danger') : 'primary'"
-            [disabled]="pregunta.respondida"
-            (click)="seleccionarRespuesta(pregunta, 'c')">
-            {{ pregunta.respuestas.c }}
-          </ion-button>
-        </ion-item>
-        <ion-item>
-          <ion-button
-            [color]="pregunta.respondida ? (pregunta.respuesta_correcta === 'd' ? 'success' : 'danger') : 'primary'"
-            [disabled]="pregunta.respondida"
-            (click)="seleccionarRespuesta(pregunta, 'd')">
-            {{ pregunta.respuestas.d }}
-          </ion-button>
-        </ion-item>
-      </ion-list>
+      Lo siento, pero para realizar la trivia debes haber visto por lo menos 5 animales y hasta el momento has visto {{animalesVistosCount}} animales.
+
+      <br />
+      <ion-button expand="full" [routerLink]="['/app/home']">
+        Volver al inicio
+      </ion-button>
     </ion-card-content>
   </ion-card>
+
+  <!-- Mostrar preguntas si el usuario ha visto al menos 5 animales -->
+  <ng-container *ngIf="puedeHacerTrivia">
+    <ion-card *ngFor="let pregunta of preguntasRandom">
+      <ion-card-header>
+        <ion-card-title>{{ pregunta.pregunta }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+
+            <ion-button
+              expand="full"
+              [color]="pregunta.respondida ? (pregunta.respuestaCorrecta ? 'success' : 'danger') : 'primary'"
+              [disabled]="pregunta.respondida"
+              (click)="seleccionarRespuesta(pregunta, 'a')"
+            >
+              {{ pregunta.respuestas.a }}
+            </ion-button>
+
+
+            <ion-button
+              expand="full"
+              [color]="pregunta.respondida ? (pregunta.respuestaCorrecta ? 'success' : 'danger') : 'primary'"
+              [disabled]="pregunta.respondida"
+              (click)="seleccionarRespuesta(pregunta, 'b')"
+            >
+              {{ pregunta.respuestas.b }}
+            </ion-button>
+
+
+            <ion-button
+              expand="full"
+              [color]="pregunta.respondida ? (pregunta.respuestaCorrecta ? 'success' : 'danger') : 'primary'"
+              [disabled]="pregunta.respondida"
+              (click)="seleccionarRespuesta(pregunta, 'c')"
+            >
+              {{ pregunta.respuestas.c }}
+            </ion-button>
+
+
+            <ion-button
+              expand="full"
+              [color]="pregunta.respondida ? (pregunta.respuestaCorrecta ? 'success' : 'danger') : 'primary'"
+              [disabled]="pregunta.respondida"
+              (click)="seleccionarRespuesta(pregunta, 'd')"
+            >
+              {{ pregunta.respuestas.d }}
+            </ion-button>
+
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>

@@ -12,7 +12,7 @@ import {privateGuard,publicGuard} from '../app/common/services/auth.guard';
 export const routes: Routes = [
   {
     path: 'app',
-    canActivate:[privateGuard()],
+
    component: BasePage,
    children: [
     { path:'home', component:HomePage},
@@ -29,7 +29,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    canActivate:[publicGuard()],
+
     path: 'login',
     loadComponent: () => import('./pages/login/login.page').then( m => m.LoginPage)
   },

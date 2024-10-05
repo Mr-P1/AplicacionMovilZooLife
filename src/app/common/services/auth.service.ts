@@ -2,6 +2,8 @@ import { Injectable,inject } from '@angular/core';
 import {Auth,authState,signOut,signInWithEmailAndPassword, getAuth,createUserWithEmailAndPassword } from '@angular/fire/auth'
 import { from, map, Observable } from 'rxjs';
 import { addDoc, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where,collection, deleteDoc } from '@angular/fire/firestore';
+import {CrearUsuario, Usuario} from '../models/usuario.model'
+import {Boleta, BoletaUsada, CrearBoletaUsada} from '../models/boleta.model'
 
 
 
@@ -9,34 +11,6 @@ const PATH_USUARIOS = 'Usuarios';
 const PATH_BOLETAS = 'Boletas';
 const PATH_BOLETAS_USADAS = 'Boletas_usadas';
 
-export interface Usuario {
-  id: string;
-  nombre:string,
-  telefono:string,
-  tipo:string,
-  puntos:number,
-  nivel:number,
-  auth_id:string,
-}
-
-export interface Boleta{
-  id:string,
-  tipo:string
-}
-
-
-export interface BoletaUsada{
-  id:string,
-  tipo:string,
-  fecha:string,
-  id_usuario:string,
-}
-
-
-
-//Lo siguiente tiene para omitir el id porque recien lo vamos a crear
-export type CrearUsuario = Omit<Usuario, 'id'>
-export type CrearBoletaUsada = Omit<BoletaUsada,'id'>;
 
 
 export interface User {
@@ -107,7 +81,7 @@ export class AuthService {
 
 
 
-  async registrarse(email: string, password: string, nombre: string, telefono: string, tipo: string) {
+  async registrarse(email: string, password: string, nombre: string, telefono: string, tipo: string, patente:string) {
     try {
       // Intentar crear el usuario en Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(this._auth, email, password);
@@ -116,10 +90,12 @@ export class AuthService {
       // Crear el documento para el usuario en Firestore
       const nuevo_usuario: CrearUsuario = {
         nombre: nombre,
+        email:email,
         telefono: telefono,
         tipo: tipo,
         puntos: 0,
         nivel: 0,
+        patente:patente,
         auth_id: user.uid,
       };
 
@@ -129,7 +105,7 @@ export class AuthService {
       if (error.code === 'auth/email-already-in-use') {
         throw new Error('Este correo electrónico ya está en uso.');
       } else {
-        throw new Error('Ocurrió un error durante el registro. Inténtalo de nuevo.');
+        throw new Error('El correo ya esta en uso');
       }
     }
   }
