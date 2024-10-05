@@ -261,6 +261,21 @@
                 >El telefono es requerido.</span
               >
             </div>
+            <br />
+            <ion-item>
+              <ion-icon name="car-outline"></ion-icon>
+              <ion-input
+                name="user"
+                type="text"
+                placeholder="Patente"
+                formControlName="patente"
+              ></ion-input>
+
+
+            </ion-item>
+
+
+
 
             <ion-item>
               <ion-label>Tipo de usuario</ion-label>
@@ -273,6 +288,8 @@
             <div *ngIf="form.get('tipo')?.touched && form.get('tipo')?.invalid" class="text-sm text-red-600" style="text-align: center;">
               <span *ngIf="form.get('tipo')?.errors?.['required']">Debe seleccionar un tipo de usuario.</span>
             </div>
+
+
 
 
 

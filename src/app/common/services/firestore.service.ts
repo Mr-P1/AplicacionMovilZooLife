@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where } from '@angular/fire/firestore';
-import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
+import { addDoc, collection, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, updateDoc, where } from '@angular/fire/firestore';
+import { catchError, from, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Animal } from '../models/animal.model';
 import { Reaction } from '../models/reaction.model';
-import {Usuario} from './auth.service';
+import {Usuario} from '../models/usuario.model';
 import { PreguntaTrivia } from '../models/trivia.models';
 
 
@@ -142,6 +142,37 @@ export class FirestoreService {
       })
     );
   }
+
+  getAnimalesVistosPorUsuario(userId: string): Observable<any[]> {
+    const animalesVistosRef = collection(this._firestore, 'AnimalesVistos');
+    const q = query(animalesVistosRef, where('userId', '==', userId));
+    return collectionData(q, { idField: 'id' });
+  }
+
+
+  actualizarUsuario(userId: string, data: Partial<Usuario>): Observable<void> {
+    const usuariosQuery = query(this._rutaUsuarios, where('auth_id', '==', userId));
+
+    // Primero obtenemos el documento donde auth_id coincide con el userId
+    return from(getDocs(usuariosQuery)).pipe(
+      switchMap((snapshot) => {
+        if (!snapshot.empty) {
+          const userDocRef = doc(this._firestore, `Usuarios/${snapshot.docs[0].id}`);
+          // Luego, actualizamos el documento con los datos proporcionados
+          return from(updateDoc(userDocRef, data));
+        } else {
+          // Si no se encuentra el usuario, devolvemos un error
+          return throwError(() => new Error('Usuario no encontrado'));
+        }
+      })
+    );
+  }
+  guardarRespuestaTrivia(respuesta: { resultado: boolean, user_id: string, pregunta_id: string }): Observable<void> {
+    const respuestasTriviaRef = collection(this._firestore, 'RespuestasTrivia');
+    return from(addDoc(respuestasTriviaRef, respuesta)).pipe(map(() => {}));
+  }
+
+
 
 
 }

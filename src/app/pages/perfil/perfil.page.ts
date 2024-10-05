@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { AuthService, Usuario } from 'src/app/common/services/auth.service';
+import { AuthService } from 'src/app/common/services/auth.service';
+import {Usuario} from '../../common/models/usuario.model'
 
 @Component({
   selector: 'app-perfil',
@@ -26,7 +27,6 @@ export class PerfilPage implements OnInit {
     console.log('UID del usuario actual:', this.uid);
 
     this.usuario = await this.authService.getUsuarioFirestore(this.uid!);
-    this.email = await String(this.authService.currentUserEmail) ;
   }
 
 
