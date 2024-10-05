@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { addDoc, collection, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where } from '@angular/fire/firestore';
-import { from, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, from, map, Observable, of, switchMap } from 'rxjs';
 import { Animal } from '../models/animal.model';
 import { Reaction } from '../models/reaction.model';
 import {Usuario} from './auth.service';
@@ -79,6 +79,26 @@ export class FirestoreService {
       map(doc => doc.exists() ? { id: doc.id, ...doc.data() } as Usuario : null)
     );
   }
+
+  getUsuarioID(authId: string): Observable<Usuario | null> {
+    const usuariosQuery = query(this._rutaUsuarios, where('auth_id', '==', authId));
+    return from(getDocs(usuariosQuery)).pipe(
+      map(snapshot => {
+        if (!snapshot.empty) {
+          const docData = snapshot.docs[0].data() as Usuario;
+          const id = snapshot.docs[0].id;
+          return { ...docData, id };  // Propaga los datos y luego agrega el campo 'id'
+        }
+        return null;
+      }),
+      catchError(err => {
+        console.error('Error al obtener el usuario:', err);
+        return of(null);
+      })
+    );
+  }
+
+
 
 
    // Método para guardar el animal visto
