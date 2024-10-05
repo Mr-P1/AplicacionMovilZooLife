@@ -1,15 +1,17 @@
 import { inject, Injectable } from '@angular/core';
 import { addDoc, collection, collectionData, doc, DocumentReference, Firestore, getDoc, getDocs, query, setDoc, where } from '@angular/fire/firestore';
-import { from, map, Observable } from 'rxjs';
+import { from, map, Observable, of, switchMap } from 'rxjs';
 import { Animal } from '../models/animal.model';
 import { Reaction } from '../models/reaction.model';
 import {Usuario} from './auth.service';
+import { PreguntaTrivia } from '../models/trivia.models';
 
 
-const PATH_ANIMALES = 'Animales';
-const PATH_REACCIONES = 'Reacciones';
-const PATH_USUARIOS = 'Usuarios';
+const PATH_ANIMALES        = 'Animales';
+const PATH_REACCIONES      = 'Reacciones';
+const PATH_USUARIOS        = 'Usuarios';
 const PATH_ANIMALES_VISTOS = 'AnimalesVistos';
+const PATH_PREGUNTAS_TRIVIA         = 'Preguntas'
 
 @Injectable({
   providedIn: 'root'
@@ -19,20 +21,22 @@ export class FirestoreService {
   constructor() { }
 
 
-  private _firestore = inject(Firestore);
-  private _rutaAnimal = collection(this._firestore, PATH_ANIMALES)
-  private _rutaReacciones = collection(this._firestore, PATH_REACCIONES);
-  private _rutaUsuarios = collection(this._firestore, PATH_USUARIOS);
+  private _firestore          = inject(Firestore);
+  private _rutaAnimal         = collection(this._firestore, PATH_ANIMALES)
+  private _rutaReacciones     = collection(this._firestore, PATH_REACCIONES);
+  private _rutaUsuarios       = collection(this._firestore, PATH_USUARIOS);
   private _rutaAnimalesVistos = collection(this._firestore, PATH_ANIMALES_VISTOS);
+  private _preguntasTrivia             = collection(this._firestore, PATH_PREGUNTAS_TRIVIA)
 
 
 
 
-
+  //Método para obtener animales
   getAnimales(): Observable<Animal[]> {
     return collectionData(this._rutaAnimal,{idField: 'id'}) as Observable<Animal[]>;
   }
 
+  //Método para obtener anial por ID
   getAnimal(id: string): Observable<Animal | null> {
     const docRef = doc(this._rutaAnimal, id);
     return from(getDoc(docRef)).pipe(
@@ -100,9 +104,24 @@ export class FirestoreService {
     );
   }
 
+  getPreguntasTriviaPorAnimalesVistos(userId: string): Observable<PreguntaTrivia[]> {
+    // Primero, obtenemos los animales vistos por el usuario
+    const animalesVistosQuery = query(this._rutaAnimalesVistos, where('userId', '==', userId));
 
-
-
+    return from(getDocs(animalesVistosQuery)).pipe(
+      map(snapshot => snapshot.docs.map(doc => doc.data()['animalId'])), // Accede a 'animalId' usando corchetes
+      switchMap((animalIds: string[]) => {
+        // Ahora obtenemos las preguntas de trivia asociadas a esos animales
+        if (animalIds.length > 0) {
+          const preguntasQuery = query(this._preguntasTrivia, where('animal_id', 'in', animalIds));
+          return collectionData(preguntasQuery, { idField: 'id' }) as Observable<PreguntaTrivia[]>;
+        } else {
+          // Si no hay animales vistos, devolvemos una lista vacía
+          return of([]);
+        }
+      })
+    );
+  }
 
 
 }

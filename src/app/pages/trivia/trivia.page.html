@@ -1,8 +1,24 @@
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">trivia</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-card *ngFor="let pregunta of preguntas">
+    <ion-card-header>
+      <ion-card-title>{{ pregunta.pregunta }}</ion-card-title>
+      <ion-card-subtitle>{{ pregunta.tipo }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-button (click)="seleccionarRespuesta(pregunta, 'a')"> {{ pregunta.respuestas.a }} </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button (click)="seleccionarRespuesta(pregunta, 'b')"> {{ pregunta.respuestas.b }} </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button (click)="seleccionarRespuesta(pregunta, 'c')"> {{ pregunta.respuestas.c }} </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-button (click)="seleccionarRespuesta(pregunta, 'd')"> {{ pregunta.respuestas.d }} </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
