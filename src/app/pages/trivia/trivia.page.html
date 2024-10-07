@@ -1,6 +1,7 @@
 <ion-content>
+  <ion-spinner *ngIf="loading" name="crescent" class="spinner-center"></ion-spinner>
   <!-- Mostrar mensaje si el usuario ha visto menos de 5 animales -->
-  <ion-card *ngIf="!puedeHacerTrivia">
+  <ion-card *ngIf="!loading && !puedeHacerTrivia">
     <ion-card-header>
       <ion-card-title>Lo siento</ion-card-title>
     </ion-card-header>

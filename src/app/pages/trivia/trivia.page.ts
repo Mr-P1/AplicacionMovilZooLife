@@ -28,6 +28,7 @@ export class TriviaPage implements OnInit, OnDestroy {
   userId: string = '';
   animalesVistosCount: number = 0;
   puedeHacerTrivia: boolean = false;
+  loading: boolean = true; // Variable para controlar el estado de carga
 
   constructor(
     private preguntaService: FirestoreService,
@@ -51,11 +52,18 @@ export class TriviaPage implements OnInit, OnDestroy {
                   this.preguntas = preguntas;
                   this.rellenarPreguntasRandom(data.tipo);
                   this.mostrarPregunta();
+                  this.loading = false; // Datos cargados, desactiva la carga
                 });
+              }else {
+                this.loading = false; // No puede hacer trivia, pero los datos han cargado
               }
             });
+          }else {
+            this.loading = false; // No puede hacer trivia, pero los datos han cargado
           }
         });
+      }else {
+        this.loading = false; // No puede hacer trivia, pero los datos han cargado
       }
     });
   }
