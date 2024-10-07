@@ -4,45 +4,51 @@ ion-content {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-}
-
-.perfil-content {
+  }
+  
+  .perfil-content {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Alinea todos los elementos, incluido el avatar, al centro */
-}
-
-.perfil-avatar {
-    margin: 20px 0;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .perfil-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .perfil-avatar {
     width: 120px;
     height: 120px;
     border: 5px solid white;
     border-radius: 50%;
     overflow: hidden;
-    display: block;
-}
-
-.perfil-info {
-    margin-top: 20px;
-    color: #ffffff;
-    display: flex;
-    justify-content: space-around; /* Aumenta el espacio entre los puntos y nivel */
-    width: 100%;
-    max-width: 400px; /* Evita que se extienda demasiado en pantallas grandes */
-}
-
-ion-row {
+  }
+  
+  .info-col {
     text-align: center;
-    font-size: 16px;
-}
-
-.info-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Asegura que el texto dentro de cada columna esté centrado */
-}
-
-ion-card {
+    color: white;
+    font-size: 18px;
+  }
+  
+  ion-card {
     margin-top: 20px;
     width: 90%;
-}
+    max-width: 500px;
+  }
+  
+  ion-card-content {
+    text-align: center;
+  }
+  
+  h4 {
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+  }
+  
