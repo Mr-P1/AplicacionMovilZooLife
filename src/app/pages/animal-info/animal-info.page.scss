@@ -39,7 +39,7 @@ ion-button img {
   height: 30px;
 }
 
-ion-content {
+.contenidoPrincipal {
   --background: none; /* Elimina el background por defecto si es necesario */
   background-image: url(./../../../assets/fondos/fondo_paginas.jpg);
   background-size: cover; /* Ajusta la imagen para cubrir completamente el modal */
@@ -48,23 +48,6 @@ ion-content {
   height: 100%; /* Asegura que el fondo cubra toda la altura */
 }
 
-.fondoModalPrecaucion {
-  --background: none; /* Elimina el background por defecto si es necesario */
-  background-image: url(./../../../assets/fondos/fondo_precauciones.jpg);
-  background-size: cover; /* Ajusta la imagen para cubrir completamente el modal */
-  background-position: center; /* Centra la imagen */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  height: 100%; /* Asegura que el fondo cubra toda la altura */
-}
-
-.fondoModalCuriosidad {
-  --background: none; /* Elimina el background por defecto si es necesario */
-  background-image: url(./../../../assets/fondos/fondo_curiosidad.jpg);
-  background-size: cover; /* Ajusta la imagen para cubrir completamente el modal */
-  background-position: center; /* Centra la imagen */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-  height: 100%; /* Asegura que el fondo cubra toda la altura */
-}
 
 div img {
   width: 100%; /* Asegura que la imagen ocupe el 100% del ancho del contenedor */
