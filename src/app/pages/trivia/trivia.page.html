@@ -1,12 +1,13 @@
 <ion-content>
   <ion-spinner *ngIf="loading" name="crescent" class="spinner-center"></ion-spinner>
+
   <!-- Mostrar mensaje si el usuario ha visto menos de 5 animales -->
   <ion-card *ngIf="!loading && !puedeHacerTrivia">
     <ion-card-header>
-      <ion-card-title>Lo siento</ion-card-title>
+      <ion-card-title>Lo sentimos</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      Lo siento, pero para realizar la trivia debes haber visto por lo menos 5 animales y hasta el momento has visto {{ animalesVistosCount }} animales.
+      Para realizar la trivia debes visitar al menos 5 animales. <br> Has visto {{ animalesVistosCount }} animal/es.
       <br />
       <ion-button expand="full" [routerLink]="['/app/home']">
         Volver al inicio
@@ -14,9 +15,21 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Mostrar preguntas si el usuario ha visto al menos 5 animales -->
-  <ng-container *ngIf="puedeHacerTrivia">
-    <!-- Card para mostrar la pregunta actual -->
+  <!-- Mostrar botón de comenzar si aún no ha comenzado la trivia -->
+  <ng-container *ngIf="puedeHacerTrivia && !triviaComenzada">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>¿Estás preparado/a?</ion-card-title>
+      </ion-card-header>   
+      <ion-card-content>
+        <p>La trivia consta de 10 preguntas sobre los animales vistos en Zoolife. Tendrás 10 segundos para responder cada una. ¡Buena suerte!</p>
+        <ion-button (click)="comenzarTrivia()">Comenzar Trivia</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
+  <!-- Mostrar preguntas si la trivia ha comenzado y no ha finalizado -->
+  <ng-container *ngIf="puedeHacerTrivia && triviaComenzada && !triviaFinalizada">
     <ion-card *ngIf="preguntaActual">
       <ion-card-header>
         <ion-card-title class="titulo-pregunta">{{ preguntaActual.pregunta }}</ion-card-title>
@@ -74,6 +87,19 @@
       </svg>
       <div class="time-text">{{ tiempoRestante }}s</div>
     </div>
+  </ng-container>
 
+  <!-- Mostrar resumen de trivia al finalizar -->
+  <ng-container *ngIf="triviaFinalizada">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Trivia finalizada</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Has respondido correctamente a {{ respuestasCorrectas }} preguntas.
+        <br />
+        <ion-button expand="full" [routerLink]="['/app/home']">Volver al inicio</ion-button>
+      </ion-card-content>
+    </ion-card>
   </ng-container>
 </ion-content>

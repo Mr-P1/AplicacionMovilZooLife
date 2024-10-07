@@ -29,6 +29,8 @@ export class TriviaPage implements OnInit, OnDestroy {
   animalesVistosCount: number = 0;
   puedeHacerTrivia: boolean = false;
   loading: boolean = true; // Variable para controlar el estado de carga
+  triviaComenzada: boolean = false; // Nueva variable para controlar si la trivia ha comenzado
+  triviaFinalizada: boolean = false; // Nueva variable para controlar si la trivia ha finalizado
 
   constructor(
     private preguntaService: FirestoreService,
@@ -51,22 +53,27 @@ export class TriviaPage implements OnInit, OnDestroy {
                 this.preguntaService.getPreguntasTriviaPorAnimalesVistos(this.userId).subscribe((preguntas: PreguntaTrivia[]) => {
                   this.preguntas = preguntas;
                   this.rellenarPreguntasRandom(data.tipo);
-                  this.mostrarPregunta();
                   this.loading = false; // Datos cargados, desactiva la carga
                 });
-              }else {
+              } else {
                 this.loading = false; // No puede hacer trivia, pero los datos han cargado
               }
             });
-          }else {
+          } else {
             this.loading = false; // No puede hacer trivia, pero los datos han cargado
           }
         });
-      }else {
+      } else {
         this.loading = false; // No puede hacer trivia, pero los datos han cargado
       }
     });
   }
+
+  comenzarTrivia() {
+    this.triviaComenzada = true;
+    this.mostrarPregunta();
+  }
+
 
   ngOnDestroy() {
     clearInterval(this.temporizador);
@@ -78,7 +85,7 @@ export class TriviaPage implements OnInit, OnDestroy {
       this.preguntaIndex++;
       this.iniciarTemporizador();
     } else {
-      this.finalizarTrivia();
+      this.finalizarTrivia(); // Finaliza la trivia
     }
   }
 
@@ -165,11 +172,12 @@ export class TriviaPage implements OnInit, OnDestroy {
     });
 
     console.log(`Respuestas guardadas. Puntos ganados: ${puntosGanados}, Nivel ganado: ${nivelGanado}`);
-    this._router.navigate(['/app/home']);
   }
 
   finalizarTrivia() {
-    alert(`Has respondido correctamente a ${this.respuestasCorrectas} preguntas.`);
-    this.enviarRespuestas();
+    clearInterval(this.temporizador); // Detenemos cualquier temporizador activo
+    this.preguntaActual = null; // Oculta la tarjeta de preguntas
+    this.triviaFinalizada = true; // Muestra la tarjeta de resultados
+    this.enviarRespuestas(); // Guarda las respuestas, pero no redirige
   }
 }
