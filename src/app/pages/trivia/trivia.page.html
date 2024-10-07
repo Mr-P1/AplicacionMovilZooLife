@@ -1,55 +1,78 @@
 <ion-content>
-  <ion-card *ngIf="preguntaActual">
+  <!-- Mostrar mensaje si el usuario ha visto menos de 5 animales -->
+  <ion-card *ngIf="!puedeHacerTrivia">
     <ion-card-header>
-      <ion-card-title class="titulo-pregunta">{{ preguntaActual.pregunta }}</ion-card-title>
+      <ion-card-title>Lo siento</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button
-        expand="block"
-        [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'a' ? 'success' : 'danger') : 'primary'"
-        [disabled]="preguntaActual.respondida"
-        (click)="seleccionarRespuesta(preguntaActual, 'a')">
-        {{ preguntaActual.respuestas.a }}
-      </ion-button>
-
-      <ion-button
-        expand="block"
-        [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'b' ? 'success' : 'danger') : 'primary'"
-        [disabled]="preguntaActual.respondida"
-        (click)="seleccionarRespuesta(preguntaActual, 'b')">
-        {{ preguntaActual.respuestas.b }}
-      </ion-button>
-
-      <ion-button
-        expand="block"
-        [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'c' ? 'success' : 'danger') : 'primary'"
-        [disabled]="preguntaActual.respondida"
-        (click)="seleccionarRespuesta(preguntaActual, 'c')">
-        {{ preguntaActual.respuestas.c }}
-      </ion-button>
-
-      <ion-button
-        expand="block"
-        [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'd' ? 'success' : 'danger') : 'primary'"
-        [disabled]="preguntaActual.respondida"
-        (click)="seleccionarRespuesta(preguntaActual, 'd')">
-        {{ preguntaActual.respuestas.d }}
+      Lo siento, pero para realizar la trivia debes haber visto por lo menos 5 animales y hasta el momento has visto {{ animalesVistosCount }} animales.
+      <br />
+      <ion-button expand="full" [routerLink]="['/app/home']">
+        Volver al inicio
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- Temporizador en un círculo -->
-  <div class="timer-circle" *ngIf="tiempoRestante >= 0">
-    <svg>
-      <circle cx="50%" cy="50%" r="45"></circle>
-      <circle
-        cx="50%"
-        cy="50%"
-        r="45"
-        [style.strokeDasharray]="circumference"
-        [style.strokeDashoffset]="circumference - (circumference * tiempoRestante) / 10"
-      ></circle>
-    </svg>
-    <div class="time-text">{{ tiempoRestante }}s</div>
-  </div>
+  <!-- Mostrar preguntas si el usuario ha visto al menos 5 animales -->
+  <ng-container *ngIf="puedeHacerTrivia">
+    <!-- Card para mostrar la pregunta actual -->
+    <ion-card *ngIf="preguntaActual">
+      <ion-card-header>
+        <ion-card-title class="titulo-pregunta">{{ preguntaActual.pregunta }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button
+          expand="block"
+          [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'a' ? 'success' : 'danger') : 'primary'"
+          [disabled]="preguntaActual.respondida"
+          (click)="seleccionarRespuesta(preguntaActual, 'a')"
+        >
+          {{ preguntaActual.respuestas.a }}
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'b' ? 'success' : 'danger') : 'primary'"
+          [disabled]="preguntaActual.respondida"
+          (click)="seleccionarRespuesta(preguntaActual, 'b')"
+        >
+          {{ preguntaActual.respuestas.b }}
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'c' ? 'success' : 'danger') : 'primary'"
+          [disabled]="preguntaActual.respondida"
+          (click)="seleccionarRespuesta(preguntaActual, 'c')"
+        >
+          {{ preguntaActual.respuestas.c }}
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          [color]="preguntaActual.respondida ? (preguntaActual.respuesta_correcta === 'd' ? 'success' : 'danger') : 'primary'"
+          [disabled]="preguntaActual.respondida"
+          (click)="seleccionarRespuesta(preguntaActual, 'd')"
+        >
+          {{ preguntaActual.respuestas.d }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Temporizador en un círculo -->
+    <div class="timer-circle" *ngIf="tiempoRestante >= 0">
+      <svg>
+        <circle cx="50%" cy="50%" r="45"></circle>
+        <circle
+          cx="50%"
+          cy="50%"
+          r="45"
+          [style.strokeDasharray]="circumference"
+          [style.strokeDashoffset]="circumference - (circumference * tiempoRestante) / 10"
+        ></circle>
+      </svg>
+      <div class="time-text">{{ tiempoRestante }}s</div>
+    </div>
+
+  </ng-container>
 </ion-content>

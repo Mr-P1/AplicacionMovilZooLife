@@ -6,13 +6,14 @@ import { PreguntaTrivia } from 'src/app/common/models/trivia.models';
 import { FirestoreService } from 'src/app/common/services/firestore.service';
 import { AuthService } from './../../common/services/auth.service';
 import { Usuario } from 'src/app/common/models/usuario.model';
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-trivia',
   templateUrl: './trivia.page.html',
   styleUrls: ['./trivia.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink],
 })
 export class TriviaPage implements OnInit, OnDestroy {
   preguntas: PreguntaTrivia[] = [];
@@ -21,42 +22,48 @@ export class TriviaPage implements OnInit, OnDestroy {
   preguntaIndex: number = 0;
   tiempoRestante: number = 10; // Tiempo en segundos por pregunta
   circumference: number = 2 * Math.PI * 45; // Circunferencia del círculo (r=45)
-
   respuestasCorrectas: number = 0;
   temporizador: any;
-  usuario: Usuario | null = null; // Asegúrate de que 'usuario' esté declarada aquí
-
+  usuario: Usuario | null = null;
+  userId: string = '';
+  animalesVistosCount: number = 0;
+  puedeHacerTrivia: boolean = false;
 
   constructor(
     private preguntaService: FirestoreService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private _router: Router
+  ) {}
 
   ngOnInit() {
-    this.authService.authState$.subscribe(user => {
+    this.authService.authState$.subscribe((user) => {
       if (user) {
-        this.preguntaService.getUsuarioID(user.uid).subscribe((data: Usuario | null) => {
+        this.userId = user.uid;
+        this.preguntaService.getUsuarioID(this.userId).subscribe((data: Usuario | null) => {
           if (data) {
             this.usuario = data;
-            this.preguntaService.getPreguntasTriviaPorAnimalesVistos(user.uid).subscribe((preguntas: PreguntaTrivia[]) => {
-              this.preguntas = preguntas;
-              this.rellenarPreguntasRandom(data.tipo);
-              this.mostrarPregunta();
+            this.preguntaService.getAnimalesVistosPorUsuario(this.userId).subscribe((animalesVistos) => {
+              this.animalesVistosCount = animalesVistos.length;
+              this.puedeHacerTrivia = this.animalesVistosCount >= 5;
+
+              if (this.puedeHacerTrivia) {
+                this.preguntaService.getPreguntasTriviaPorAnimalesVistos(this.userId).subscribe((preguntas: PreguntaTrivia[]) => {
+                  this.preguntas = preguntas;
+                  this.rellenarPreguntasRandom(data.tipo);
+                  this.mostrarPregunta();
+                });
+              }
             });
           }
         });
       }
     });
-
   }
 
-
   ngOnDestroy() {
-    // Limpia el temporizador cuando el componente se destruye
     clearInterval(this.temporizador);
   }
 
-  // Muestra la siguiente pregunta o finaliza el juego si no hay más preguntas
   mostrarPregunta() {
     if (this.preguntaIndex < this.preguntasRandom.length) {
       this.preguntaActual = this.preguntasRandom[this.preguntaIndex];
@@ -67,44 +74,45 @@ export class TriviaPage implements OnInit, OnDestroy {
     }
   }
 
-
-
   iniciarTemporizador() {
-    this.tiempoRestante = 10; // Reiniciar el temporizador a 15 segundos
-    clearInterval(this.temporizador); // Limpiamos cualquier temporizador anterior
+    this.tiempoRestante = 10; // Reiniciar el temporizador a 10 segundos
+    clearInterval(this.temporizador);
     this.temporizador = setInterval(() => {
       if (this.tiempoRestante > 0) {
         this.tiempoRestante--;
       } else {
-        clearInterval(this.temporizador); // Limpiamos el temporizador si llega a 0
-        this.mostrarPregunta(); // Cambiamos a la siguiente pregunta automáticamente
+        clearInterval(this.temporizador);
+        this.mostrarPregunta();
       }
     }, 1000);
   }
 
   seleccionarRespuesta(pregunta: PreguntaTrivia, respuesta: string) {
-    if (!pregunta.respondida) {
-      pregunta.respondida = true;
-      pregunta.respuestaCorrecta = (respuesta === pregunta.respuesta_correcta);
+    if (pregunta.respondida) return;
 
-      if (pregunta.respuestaCorrecta) {
-        this.respuestasCorrectas++;
-      }
+    pregunta.respondida = true;
+    pregunta.respuestaCorrecta = respuesta === pregunta.respuesta_correcta;
 
-      clearInterval(this.temporizador); // Detenemos el temporizador cuando se selecciona una respuesta
-      setTimeout(() => this.mostrarPregunta(), 1000); // Mostramos la siguiente pregunta tras 1 segundo
+    if (pregunta.respuestaCorrecta) {
+      this.respuestasCorrectas++;
     }
+
+    clearInterval(this.temporizador);
+    setTimeout(() => this.mostrarPregunta(), 1000); // Mostramos la siguiente pregunta tras 1 segundo
+
+    if (this.todasLasPreguntasRespondidas()) {
+      this.enviarRespuestas();
+    }
+  }
+
+  todasLasPreguntasRespondidas(): boolean {
+    return this.preguntasRandom.every((pregunta) => pregunta.respondida);
   }
 
   rellenarPreguntasRandom(tipoUsuario: string) {
     const tipoUsuarioLowerCase = tipoUsuario.toLowerCase();
-    const preguntasFiltradas = this.preguntas.filter(pregunta => pregunta.tipo.toLowerCase() === tipoUsuarioLowerCase);
+    const preguntasFiltradas = this.preguntas.filter((pregunta) => pregunta.tipo.toLowerCase() === tipoUsuarioLowerCase);
     this.preguntasRandom = this.shuffleArray(preguntasFiltradas).slice(0, tipoUsuarioLowerCase === 'adulto' ? 10 : 8);
-  }
-
-  finalizarTrivia() {
-    // Muestra el resultado final
-    alert(`Has respondido correctamente a ${this.respuestasCorrectas} preguntas.`);
   }
 
   shuffleArray(array: PreguntaTrivia[]): PreguntaTrivia[] {
@@ -113,5 +121,50 @@ export class TriviaPage implements OnInit, OnDestroy {
       [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+  }
+
+  async enviarRespuestas() {
+    if (!this.usuario || !this.userId) {
+      console.error('No se pudo obtener el usuario o userId');
+      return;
+    }
+
+    let puntosGanados = 0;
+    let nivelGanado = 0;
+
+    for (const pregunta of this.preguntasRandom) {
+      const respuestaCorrecta = pregunta.respuestaCorrecta ?? false;
+
+      const respuesta = {
+        resultado: respuestaCorrecta,
+        user_id: this.userId,
+        pregunta_id: pregunta.id,
+        fecha: new Date()
+      };
+
+      this.preguntaService.guardarRespuestaTrivia(respuesta).subscribe(() => {
+        console.log('Respuesta guardada en Firestore');
+      });
+
+      if (respuestaCorrecta) {
+        nivelGanado += 3; // 3 puntos de nivel por respuesta correcta
+        puntosGanados += this.usuario?.tipo.toLowerCase() === 'adulto' ? 10 : 5;
+      }
+    }
+
+    const nuevoPuntaje = this.usuario.puntos + puntosGanados;
+    const nuevoNivel = this.usuario.nivel + nivelGanado;
+
+    this.preguntaService.actualizarUsuario(this.userId, { puntos: nuevoPuntaje, nivel: nuevoNivel }).subscribe(() => {
+      console.log('Usuario actualizado correctamente');
+    });
+
+    console.log(`Respuestas guardadas. Puntos ganados: ${puntosGanados}, Nivel ganado: ${nivelGanado}`);
+    this._router.navigate(['/app/home']);
+  }
+
+  finalizarTrivia() {
+    alert(`Has respondido correctamente a ${this.respuestasCorrectas} preguntas.`);
+    this.enviarRespuestas();
   }
 }
