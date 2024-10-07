@@ -1,0 +1,58 @@
+.titulo-pregunta {
+  text-align: center; /* Centra el título de la pregunta */
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+ion-button {
+  width: 100%; /* Hace que los botones ocupen todo el ancho */
+  margin: 8px 0; /* Añade un poco de espacio entre los botones */
+  --border-radius: 8px; /* Opcional: añade bordes redondeados */
+}
+
+.timer-circle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 20px auto; /* Centra el temporizador */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg); /* Rota el círculo para que inicie desde arriba */
+  }
+
+  circle {
+    fill: none;
+    stroke: #eaeaea; /* Color de fondo del círculo */
+    stroke-width: 8;
+  }
+
+  circle:nth-child(2) {
+    stroke: #cd8500; /* Color de la barra del temporizador */
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear; /* Suaviza el movimiento */
+  }
+
+  .time-text {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #eaeaea;
+  }
+}
+
+ion-content {
+  --background: none;
+  background-image: url(./../../../assets/fondos/fondo_paginas.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+}
