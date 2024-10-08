@@ -37,11 +37,22 @@
 @import '@ionic/angular/css/palettes/dark.system.css';
 
 .estado-disponible {
-    color: green;
+    color: #44ac07;
     font-weight: bold;
   }
   
   .estado-no-disponible {
-    color: red;
+    color: rgba(189, 22, 0, 0.979);
     font-weight: bold;
+  }
+
+  .estado-proximamente {
+    color: #ff8800;
+    font-weight: bold;
+  }
+
+  ion-card {
+    background-color: #fffffff1; /* Fondo más oscuro semi-transparente */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra más marcada */
   }

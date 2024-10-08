@@ -4,7 +4,7 @@ import { FirestoreService } from '../../common/services/firestore.service';
 import { Animal } from '../../common/models/animal.model';
 import { Reaction } from 'src/app/common/models/reaction.model';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { IonicModule} from '@ionic/angular';
 import { AuthService } from './../../common/services/auth.service';
 
@@ -18,10 +18,13 @@ import { AuthService } from './../../common/services/auth.service';
 export class HomePage implements OnInit {
   animales: Animal[] = [];
   userId:string = '';
-
+  filteredAnimals: Animal[] = []; // Lista de animales filtrados
+  searchTerm: string = ''; // Para almacenar el término de búsqueda
+ 
   constructor(
     private animalsService: FirestoreService,
     private authService: AuthService,
+    private router: Router
     
   ) {}
   
@@ -52,6 +55,25 @@ export class HomePage implements OnInit {
         });
       });
     });
+  }
+
+  // Método para filtrar animales según el término de búsqueda
+  filterAnimals(event: any) {
+    this.searchTerm = event.target.value.toLowerCase();
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      this.filteredAnimals = this.animales.filter(animal =>
+        animal.nombre_comun.toLowerCase().includes(this.searchTerm)
+      );
+    } else {
+      this.filteredAnimals = [];
+    }
+  }
+
+  // Método para redirigir a la página de información del animal
+  goToAnimal(animalId: string) {
+    this.router.navigate(['/app/animal-info', animalId]);
+    this.searchTerm = '';
+    this.filteredAnimals = [];
   }
 
   like(animalId: string) {

@@ -65,7 +65,9 @@ export class BasePage implements OnInit {
     } else if (url.includes('mapa')) {
       this.pageTitle = 'Mapa';
     } else if (url.includes('animal-info')) {
-      this.pageTitle = 'Información'; // Nuevo título para la página de animal-info
+      this.pageTitle = 'Atracción';
+    } else if (url.includes('info-zoo')) {
+      this.pageTitle = 'Información';
     } else {
       this.pageTitle = 'Menú';  // Título por defecto
     }

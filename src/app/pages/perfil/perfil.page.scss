@@ -40,15 +40,17 @@ ion-content {
     margin-top: 20px;
     width: 90%;
     max-width: 500px;
+    text-align: center;
   }
   
   ion-card-content {
     text-align: center;
   }
-  
-  h4 {
-    margin-bottom: 10px;
-    color: #333;
+
+  ion-card-title {
+    color: #80a522; 
     font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.2rem; /* Aumenta un poco el tamaño del título */
   }
   

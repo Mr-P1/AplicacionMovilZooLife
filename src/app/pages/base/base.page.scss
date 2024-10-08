@@ -1,46 +1,35 @@
-.left-align-button {
-  justify-content: flex-start;
+
+
+
+ion-menu {
+  ion-toolbar {
+    --background: #ffffffe8; /* Color de fondo del toolbar (cabecera del menú) */
+    --color: #000000; /* Color del título del menú */
+  }
+
+  ion-item {
+    --background: transparent; /* Fondo de cada ítem */
+    --color: #000000; /* Color del texto de los ítems */
+    
+    &:hover {
+      --background: #80a522; /* Color de fondo al pasar el cursor sobre el ítem */
+    }
+  }
+
+  ion-title {
+    font-weight: bold; /* Opción: poner el título en negrita */
+  }
 }
 
-.wrapper {
-  display: flex;
-  flex-wrap: wrap;
-
-  align-items: center;
-  justify-content: space-between;
-  text-align: center;
-
-  height: 170px;
-  width: 400px;
-
-  margin: 0 auto;
+ion-toolbar {
+  --background: #ffffffe8; /* Cambia el color de fondo del toolbar */
+  --color: #000000; /* Cambia el color del texto (título) */
 }
 
-b {
-  width: 100%;
+ion-back-button {
+  --color: #80a522; /* Cambia el color del botón de retroceso */
 }
 
-.ripple-parent {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  position: relative;
-  overflow: hidden;
-
-  border: 1px solid #ddd;
-
-  user-select: none;
-
-  width: 100%;
-  height: 50px;
-  border-radius: 8px;
-}
-
-.custom-parent {
-  color: #de1e7e;
-}
-
-.custom-ripple {
-  color: #501ace;
+ion-menu-button {
+  --color: #80a522; /* Cambia el color del ícono del botón del menú */
 }

@@ -1,0 +1,21 @@
+ion-content {
+    --background: none; /* Elimina el background por defecto si es necesario */
+    background-image: url(./../../../assets/fondos/fondo_paginas.jpg);
+    background-size: cover; /* Ajusta la imagen para cubrir completamente el modal */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    height: 100%; /* Asegura que el fondo cubra toda la altura */
+  }
+
+  ion-card-title {
+    color: #80a522; 
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.2rem; /* Aumenta un poco el tamaño del título */
+  }
+  
+  ion-card-content {
+    color: #000000; 
+    font-size: 1rem; /* Tamaño de texto ajustado */
+  }
+  
