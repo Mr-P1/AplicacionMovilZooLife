@@ -90,7 +90,7 @@ export class AuthService {
       // Crear el documento para el usuario en Firestore
       const nuevo_usuario: CrearUsuario = {
         nombre: nombre,
-        email:email,
+        correo:email,
         telefono: telefono,
         tipo: tipo,
         puntos: 0,

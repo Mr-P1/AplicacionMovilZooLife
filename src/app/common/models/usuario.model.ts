@@ -1,7 +1,7 @@
 export interface Usuario {
   id: string;
   nombre:string,
-  email:string,
+  correo:string,
   telefono:string,
   tipo:string,
   puntos:number,
