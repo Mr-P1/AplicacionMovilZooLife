@@ -21,7 +21,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: #FFA500;
+  background-color: #ff8800;
   color: white;
   border-radius: 50%;
   width: 40px; /* Asegura que el ancho del círculo sea suficiente para dos dígitos */
@@ -44,14 +44,6 @@
 
 .estado {
   font-size: 0.85em;
-}
-
-.estado-disponible {
-  color: green;
-}
-
-.estado-no-disponible {
-  color: red;
 }
 
 ion-card-title {

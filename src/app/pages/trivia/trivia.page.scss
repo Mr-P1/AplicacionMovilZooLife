@@ -34,7 +34,7 @@ ion-button {
   }
 
   circle:nth-child(2) {
-    stroke: #cd8500; /* Color de la barra del temporizador */
+    stroke: #ff8800; /* Color de la barra del temporizador */
     stroke-width: 8;
     stroke-linecap: round;
     transition: stroke-dashoffset 1s linear; /* Suaviza el movimiento */
@@ -57,3 +57,15 @@ ion-content {
   height: 100%;
 }
 
+ion-card-title {
+  color: #80a522; 
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1.2rem; /* Aumenta un poco el tamaño del título */
+}
+
+ion-button {
+  --background: #ff8800; /* Color de fondo del botón */
+  --color: #ffffff; /* Color del texto */
+  --border-radius: 5px; /* Opción para redondear bordes */
+}

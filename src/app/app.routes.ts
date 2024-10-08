@@ -7,6 +7,7 @@ import { PerfilPage } from './pages/perfil/perfil.page';
 import { TriviaPage } from './pages/trivia/trivia.page';
 import { MapaPage } from './pages/mapa/mapa.page';
 import {privateGuard,publicGuard} from '../app/common/services/auth.guard';
+import { InfoZooPage } from './pages/info-zoo/info-zoo.page';
 
 
 export const routes: Routes = [
@@ -21,6 +22,7 @@ export const routes: Routes = [
     {path:'perfil', component:PerfilPage},
     {path:'trivia', component:TriviaPage},
     {path:'mapa', component:MapaPage},
+    {path:'info-zoo', component:InfoZooPage},
    ]
   },
   {
@@ -41,6 +43,7 @@ export const routes: Routes = [
     path:'**',
     redirectTo:''
   },
+
 
 
 

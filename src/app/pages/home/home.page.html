@@ -1,5 +1,20 @@
 <ion-content>
-  <ion-searchbar color="light" placeholder="Buscar atracción"></ion-searchbar>
+  <ion-searchbar
+  color="light"
+  placeholder="Buscar atracción"
+  (ionInput)="filterAnimals($event)"
+  [value]="searchTerm"
+  ></ion-searchbar>
+
+  <ion-list *ngIf="filteredAnimals.length > 0">
+    <ion-item *ngFor="let animal of filteredAnimals" (click)="goToAnimal(animal.id)">
+      {{ animal.nombre_comun }}
+    </ion-item>
+  </ion-list>
+  
+  <ion-item *ngIf="filteredAnimals.length === 0 && searchTerm">
+    <ion-label>No se encontraron resultados</ion-label>
+  </ion-item>
   
   <ion-card *ngFor="let animal of animales" class="animal-card">
     <div class="image-container">
@@ -17,7 +32,8 @@
           <ion-card-subtitle class="estado" 
             [ngClass]="{
               'estado-disponible': animal.disponibilidad === 'Disponible',
-              'estado-no-disponible': animal.disponibilidad !== 'Disponible'
+              'estado-no-disponible': animal.disponibilidad === 'Tratamiento',
+              'estado-proximamente' : animal.disponibilidad === 'Proximamente'
             }">{{animal.disponibilidad}}</ion-card-subtitle>
         </div>
 

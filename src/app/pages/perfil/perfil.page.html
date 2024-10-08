@@ -15,8 +15,11 @@
     </div>
 
     <ion-card>
+      <ion-card-header >
+        <ion-card-title>Estadisticas</ion-card-title>
+      </ion-card-header>
+      
       <ion-card-content>
-        <h4>Estadísticas</h4>
         <p><strong>Preguntas correctas</strong>: 54 </p>
         <p><strong>Preguntas incorrectas</strong>: 26 </p>
       </ion-card-content>
@@ -24,12 +27,14 @@
 
     <ion-card>
       <ion-card-content>
-        <h4>Información Personal</h4>
+        <ion-card-header >
+          <ion-card-title>Datos Personales</ion-card-title>
+        </ion-card-header>
         <p><strong>Nombre</strong>: {{usuario?.nombre}} </p>
         <p><strong>Teléfono</strong>: {{usuario?.telefono}}</p>
-        <p><strong>Correo</strong>: {{usuario?.email}}</p>
-        <p><strong>Patente</strong>: {{usuario?.patente}}</p>
+        <p><strong>Correo</strong>: {{usuario?.correo}}</p>
         <p><strong>Cuenta</strong>: {{usuario?.tipo}} </p>
+        <p><strong>Patente</strong>: {{usuario?.patente}}</p>
       </ion-card-content>
     </ion-card>
   </div>
