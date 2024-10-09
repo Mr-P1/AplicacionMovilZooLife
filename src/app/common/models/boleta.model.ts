@@ -7,7 +7,7 @@ export interface Boleta{
 export interface BoletaUsada{
   id:string,
   tipo?:string,
-  fecha:string,
+  fecha:Date,
   id_usuario:string,
 }
 

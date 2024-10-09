@@ -129,7 +129,7 @@ export class AuthService {
 
     if (boletaData.exists()) {
       const boleta = boletaData.data() as Boleta;
-      const fechaUso = new Date().toISOString();  // Formato ISO para la fecha
+      const fechaUso = new Date();
       const boletaUsada: CrearBoletaUsada = {
         tipo: boleta.tipo,
         fecha: fechaUso,
